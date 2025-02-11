@@ -80,6 +80,17 @@ in
     ];
   };
 
+  go = {
+    config = ../lua/lang/go.lua;
+    packages = with pkgs; [
+      go
+      gopls
+    ];
+    plugins = with parsers; [
+      go
+    ];
+  };
+
   lua = {
     config = ../lua/lang/lua.lua;
     packages = with pkgs; [
