@@ -88,6 +88,7 @@ in
     ];
     plugins = with parsers; [
       go
+      gomod
     ];
   };
 
