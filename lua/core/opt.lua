@@ -15,6 +15,8 @@ opt.breakindent = true
 opt.pumheight = 10
 opt.pumblend = 15
 
+opt.laststatus = 3
+
 --
 -- commands -------------------------------------
 --

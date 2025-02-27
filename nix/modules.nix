@@ -57,6 +57,13 @@ in
 
   clipboard.config = ../lua/feat/clipboard.lua;
 
+  avante = {
+    config = ../lua/feat/avante.lua;
+    plugins = with plugins; [
+      avante-nvim
+    ];
+  };
+
   copilot = {
     config = ../lua/feat/copilot.lua;
     packages = with pkgs; [

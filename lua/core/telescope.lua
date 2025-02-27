@@ -5,7 +5,7 @@ local function map(key, picker)
 end
 
 for picker, key in pairs {
-  find_files = "a",
+  -- find_files = "a",
   buffers = "b",
   git_files = "f",
   help_tags = "h",

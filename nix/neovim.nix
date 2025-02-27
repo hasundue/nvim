@@ -34,6 +34,7 @@ let
       '';
 
       wrapperArgs = neovimConfig.wrapperArgs
+        ++ [ "--suffix" "LUA_CPATH" ";" "${pkgs.vimPlugins.avante-nvim}/build/?.so" ]
         ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
 
       wrapRc = true; # make sure to wrap the rc file for `-u` option
