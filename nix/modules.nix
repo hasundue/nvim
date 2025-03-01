@@ -61,6 +61,7 @@ in
     config = ../lua/feat/avante.lua;
     plugins = with plugins; [
       avante-nvim
+      img-clip-nvim
     ];
   };
 
