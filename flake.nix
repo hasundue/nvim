@@ -16,12 +16,10 @@
   outputs = { nixpkgs, incl, self, ... } @ inputs:
     let
       lib = builtins // nixpkgs.lib // { inherit incl; };
+      overlays = import ./overlays { inherit (inputs) im-switch-nvim; };
       forSystem = system: module: (import module) {
         inherit self lib;
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ (import ./nix/overlay.nix inputs) ];
-        };
+        pkgs = import nixpkgs { inherit system overlays; };
       };
     in
     lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
@@ -35,5 +33,5 @@
             attrs // { all = lib.attrValues attrs; };
         }
       ) //
-    (import ./nix/dogfood.nix (inputs // { nvim-flake = self; }));
+    (import ./nix/dogfood.nix (inputs // { inherit self; }));
 }

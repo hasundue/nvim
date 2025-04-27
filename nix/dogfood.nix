@@ -1,29 +1,30 @@
 { nixpkgs
 , flake-utils
-, nvim-flake
+, self
 , ...
 }:
 
 {
   overlays = {
     default = final: prev: {
-      mkNeovim = nvim-flake.${final.system};
+      mkNeovim = self.${final.system};
     };
   };
 } //
 flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
   let
-    pkgs = nixpkgs.legacyPackages.${system};
     lib = nixpkgs.lib;
-    nvim = nvim-flake.${system};
+    pkgs = nixpkgs.legacyPackages.${system};
+    mkNeovim = self.${system};
   in
   rec {
-    packages = with nvim.modules;
+    packages =
       {
-        default = nvim { modules = all; };
+        default = mkNeovim {
+        };
       } //
       lib.mapAttrs
-        (name: extra: nvim {
+        (name: extra: mkNeovim {
           modules = [ core clipboard copilot ] ++ extra;
         })
         {
