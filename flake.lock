@@ -39,11 +39,11 @@
     "incline-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1740099496,
-        "narHash": "sha256-EeNvFa+Zrqgnp3Wtcwi4EdOgtnlZf9a68xPcYrH545k=",
+        "lastModified": 1742809093,
+        "narHash": "sha256-5chrEfjk1Q+lvGqtoUfS/cYbxCUp1gij6SMoB1QRNbs=",
         "owner": "b0o",
         "repo": "incline.nvim",
-        "rev": "0eb5b7f6fc6636a4e7b2eb2800b7650fd6d164a2",
+        "rev": "27040695b3bbfcd3257669037bd008d1a892831d",
         "type": "github"
       },
       "original": {
@@ -69,11 +69,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1740695751,
-        "narHash": "sha256-D+R+kFxy1KsheiIzkkx/6L63wEHBYX21OIwlFV8JvDs=",
+        "lastModified": 1746064326,
+        "narHash": "sha256-r7IZkN9NhK/IO9/J6D9ih2P1OXb67nr5HaQ1YAte18w=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "6313551cd05425cd5b3e63fe47dbc324eabb15e4",
+        "rev": "91bf6dffa21c7709607c9fdbf9a6acb44e7a0a5d",
         "type": "github"
       },
       "original": {
