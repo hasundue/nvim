@@ -6,6 +6,7 @@
 
     flake-utils.url = "github:numtide/flake-utils";
     incl.url = "github:divnix/incl";
+    lz-n.url = "github:nvim-neorocks/lz.n";
 
     incline-nvim = {
       url = "github:b0o/incline.nvim";
@@ -34,5 +35,5 @@
             attrs // { all = lib.attrValues attrs; };
         }
       ) //
-    (import ./nix/dogfood.nix (inputs // { nvim-flake = self; }));
+    (import ./nix/dogfood.nix (inputs // { inherit self; }));
 }
