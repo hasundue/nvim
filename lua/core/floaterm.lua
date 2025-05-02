@@ -42,6 +42,7 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
   pattern = { "*" },
   callback = function()
     maplocal("t", "<Esc>", "<C-\\><C-n>")
+    maplocal("t", "<C-[>", "<C-\\><C-n>")
     maplocal("n", "<C-[>", exec("FloatermHide"))
   end
 })
