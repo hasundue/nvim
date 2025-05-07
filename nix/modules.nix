@@ -121,6 +121,16 @@ in
     ];
   };
 
+  python = {
+    config = ../lua/lang/python.lua;
+    packages = with pkgs; [
+      pyright
+    ];
+    plugins = with parsers; [
+      python
+    ];
+  };
+
   rust = {
     config = ../lua/lang/rust.lua;
     packages = with pkgs; [

@@ -29,6 +29,7 @@ flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
         {
           deno = [ deno ];
           nix = [ lua nix ];
+          python = [ python ];
         };
     devShells = {
       default = pkgs.mkShell {
