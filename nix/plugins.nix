@@ -1,12 +1,9 @@
-{ pkgs, srcs, ... }:
+{ pkgs, lib, srcs, ... }:
 
-let
-  inherit (pkgs.vimUtils) buildVimPlugin;
-in
-pkgs.vimPlugins // {
-  incline-nvim = buildVimPlugin {
-    pname = "incline-nvim";
-    version = srcs.incline-nvim.rev;
-    src = srcs.incline-nvim;
-  };
-}
+pkgs.vimPlugins // (lib.mapAttrs
+  (name: src: pkgs.vimUtils.buildVimPlugin {
+    pname = name;
+    version = src.rev;
+    src = src;
+  })
+  srcs)

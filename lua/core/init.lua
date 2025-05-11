@@ -5,6 +5,7 @@ for _, v in ipairs {
   "opt",
   "cmp",
   "floaterm",
+  "im-switch",
   "incline",
   "kanagawa",
   "lsp",

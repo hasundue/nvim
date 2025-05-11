@@ -11,6 +11,10 @@
       url = "github:b0o/incline.nvim";
       flake = false;
     };
+    im-switch-nvim = {
+      url = "github:drop-stones/im-switch.nvim";
+      flake = false;
+    };
   };
 
   outputs = { nixpkgs, incl, self, ... } @ inputs:
@@ -20,7 +24,7 @@
         inherit self;
         lib = lib // { inherit incl; };
         pkgs = nixpkgs.legacyPackages.${system};
-        srcs = { inherit (inputs) incline-nvim; };
+        srcs = { inherit (inputs) incline-nvim im-switch-nvim; };
       };
     in
     lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]

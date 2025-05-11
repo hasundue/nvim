@@ -18,6 +18,22 @@
         "type": "github"
       }
     },
+    "im-switch-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1742821305,
+        "narHash": "sha256-GxoOdZKBSg92ctfWi7XSPppPdP8anJXTTAvcBl5DXnY=",
+        "owner": "drop-stones",
+        "repo": "im-switch.nvim",
+        "rev": "4cdf37816b34ea856d6c8ab7d7bb4d81f9ff5222",
+        "type": "github"
+      },
+      "original": {
+        "owner": "drop-stones",
+        "repo": "im-switch.nvim",
+        "type": "github"
+      }
+    },
     "incl": {
       "inputs": {
         "nixlib": "nixlib"
@@ -86,6 +102,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "im-switch-nvim": "im-switch-nvim",
         "incl": "incl",
         "incline-nvim": "incline-nvim",
         "nixpkgs": "nixpkgs"
