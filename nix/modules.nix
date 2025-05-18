@@ -1,7 +1,7 @@
-{ pkgs, ... } @ args:
+{ pkgs, ... }:
 
 let
-  plugins = import ./plugins.nix args;
+  plugins = pkgs.vimPlugins;
   parsers = plugins.nvim-treesitter-parsers;
 in
 {
@@ -27,7 +27,7 @@ in
 
       # ui
       gitsigns-nvim
-      im-switch-nvim
+      # im-switch-nvim
       incline-nvim
       lualine-nvim
       oil-nvim

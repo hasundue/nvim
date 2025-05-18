@@ -19,12 +19,13 @@
 
   outputs = { nixpkgs, incl, self, ... } @ inputs:
     let
-      lib = builtins // nixpkgs.lib;
+      lib = builtins // nixpkgs.lib // { inherit incl; };
       forSystem = system: module: (import module) {
-        inherit self;
-        lib = lib // { inherit incl; };
-        pkgs = nixpkgs.legacyPackages.${system};
-        srcs = { inherit (inputs) incline-nvim im-switch-nvim; };
+        inherit self lib;
+        pkgs = import nixpkgs { 
+          inherit system;
+          overlays = [ (import ./nix/overlay.nix inputs) ];
+        };
       };
     in
     lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
