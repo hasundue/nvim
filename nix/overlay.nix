@@ -13,8 +13,6 @@ let
 in
 {
   vimPlugins = prev.vimPlugins // {
-    incline-nvim = wrapVimPlugin "incline-nvim" { };
-
     im-switch-nvim = wrapVimPlugin "im-switch-nvim" {
       buildInputs = with final; [
         vimPlugins.plenary-nvim

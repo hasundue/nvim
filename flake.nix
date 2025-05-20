@@ -7,10 +7,6 @@
     flake-utils.url = "github:numtide/flake-utils";
     incl.url = "github:divnix/incl";
 
-    incline-nvim = {
-      url = "github:b0o/incline.nvim";
-      flake = false;
-    };
     im-switch-nvim = {
       url = "github:drop-stones/im-switch.nvim";
       flake = false;
@@ -22,7 +18,7 @@
       lib = builtins // nixpkgs.lib // { inherit incl; };
       forSystem = system: module: (import module) {
         inherit self lib;
-        pkgs = import nixpkgs { 
+        pkgs = import nixpkgs {
           inherit system;
           overlays = [ (import ./nix/overlay.nix inputs) ];
         };
