@@ -27,7 +27,7 @@ in
 
       # ui
       gitsigns-nvim
-      # im-switch-nvim
+      im-switch-nvim
       incline-nvim
       lualine-nvim
       oil-nvim

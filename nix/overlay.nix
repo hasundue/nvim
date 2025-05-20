@@ -1,14 +1,26 @@
-{ incline-nvim, ... }:
+inputs:
 
 final: prev:
 
 let
-  inherit (prev.vimUtils) buildVimPlugin;
+  lib = final.lib;
+
+  wrapVimPlugin = name: args: final.vimUtils.buildVimPlugin ({
+    pname = name;
+    version = inputs.${name}.rev;
+    src = inputs.${name};
+  } // args);
 in
 {
-  incline-nvim = buildVimPlugin {
-    pname = "incline-nvim";
-    version = incline-nvim.rev;
-    src = incline-nvim;
+  vimPlugins = prev.vimPlugins // {
+    incline-nvim = wrapVimPlugin "incline-nvim" { };
+
+    im-switch-nvim = wrapVimPlugin "im-switch-nvim" {
+      buildInputs = with final; [
+        vimPlugins.plenary-nvim
+      ] ++ lib.optional hostPlatform.isWindows [
+        cargo
+      ];
+    };
   };
 }
