@@ -4,7 +4,6 @@ require("core.lsp").setup("pyright", {
       analysis = {
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,
-        typeCheckingMode = "basic",
       },
     },
   },
