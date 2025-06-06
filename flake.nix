@@ -12,7 +12,7 @@
     };
   };
 
-  outputs = { nixpkgs, flake-utils, self, ... } @ inputs:
+  outputs = { nixpkgs, self, ... } @ inputs:
     let
       lib = nixpkgs.lib;
 
@@ -24,12 +24,10 @@
         lib = pkgs.lib;
       };
 
-      forEachSystem = op: lib.genAttrs
-        [ "x86_64-linux" "aarch64-linux" ]
-        (sys: forSystem sys op);
+      forEachSystem = op: lib.genAttrs [ "x86_64-linux" ] (sys: forSystem sys op);
     in
     {
-      overlays.default = import ./overlays/default.nix {
+      overlays.default = import ./overlays {
         inherit (nixpkgs) lib;
         inherit (inputs) incl im-switch-nvim;
       };

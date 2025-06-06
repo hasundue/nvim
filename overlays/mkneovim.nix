@@ -10,7 +10,7 @@ let
   normalizePname = utils.compose [
     (lib.removePrefix "nvim-")
     (utils.removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
-    (lib.replaceStrings [ "_" ] [ "-" ])
+    (lib.replaceStrings [ "-" ] [ "_" ])
   ];
 
   toLuaConfigPath = base: drv:
