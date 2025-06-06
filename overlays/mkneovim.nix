@@ -3,15 +3,20 @@ final: prev:
 let
   inherit (final) lib neovimUtils wrapNeovimUnstable neovim-unwrapped;
 
-  toLuaName = name: (lib.replaceStrings [ "-" ] [ "_" ] name);
+  normalizePname = lib.compose [
+    (lib.removePrefix "nvim-")
+    (lib.removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
+    (lib.replaceStrings [ "_" ] [ "-" ])
+  ];
 
   toLuaConfigPath = base: drv:
-    (toString ../lua) + "/${base}/${toLuaName drv.pname}.lua";
+    (toString ../lua) + "/${base}/${normalizePname drv.pname}.lua";
 
-  toLuaModuleSpec = base: drv:
-    base + "." + (toLuaName drv.pname);
+  toLuaModuleSpec = path:
+    lib.removePrefix ((toString ../lua) + "/") (lib.removeSuffix ".lua" path);
 
-  formatRequireLine = path: ''require("${toLuaModuleSpec path}")'';
+
+  formatRequireLine = spec: ''require("${spec}")'';
 
   neovimConfig = neovimUtils.makeNeovimConfig { };
 in
@@ -21,10 +26,17 @@ in
     , plugins ? [ ]
     } @ attrs:
     let
-      configs = lib.mapAttrsToList toLuaConfigPath attrs;
-      configDir = lib.incl ../. configs;
+      luaConfigs = lib.concatLists (
+        lib.mapAttrsToList
+          (key: drvs: lib.map (toLuaConfigPath key) drvs)
+          attrs
+      );
+      configDir = lib.incl ../. luaConfigs;
 
-      modules = lib.mapAttrsToList toLuaModuleSpec attrs;
+      modules = lib.map
+        toLuaModuleSpec
+        (lib.filter lib.pathExists luaConfigs);
+
       requireLines = lib.concatLines (map formatRequireLine modules);
     in
     wrapNeovimUnstable neovim-unwrapped (neovimConfig // {

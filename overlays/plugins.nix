@@ -11,7 +11,7 @@ final: prev:
       final.vimUtils.buildVimPlugin {
         inherit src;
 
-        pname = src.pname;
+        pname = "im-switch-nvim";
         version = src.rev;
 
         buildInputs = with final; [

@@ -29,7 +29,11 @@
       in
       {
         packages = {
-          default = pkgs.mkNeovim { };
+          default = pkgs.mkNeovim {
+            plugins = with pkgs.vimPlugins; [
+              kanagawa-nvim
+            ];
+          };
         };
       });
 }
