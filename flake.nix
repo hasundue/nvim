@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    flake-utils.url = "github:numtide/flake-utils";
     incl.url = "github:divnix/incl";
 
     im-switch-nvim = {
@@ -14,26 +13,34 @@
   };
 
   outputs = { nixpkgs, flake-utils, self, ... } @ inputs:
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let
+    let
+      lib = nixpkgs.lib;
+
+      forSystem = system: op: op rec {
         pkgs = import nixpkgs {
           inherit system;
           overlays = [ self.overlays.default ];
         };
-      in
-      {
-        packages = {
-          default = pkgs.mkNeovim {
-            plugins = with pkgs.vimPlugins; [
-              kanagawa-nvim
-            ];
-          };
-        };
-      }
-    ) // {
+        lib = pkgs.lib;
+      };
+
+      forEachSystem = op: lib.genAttrs
+        [ "x86_64-linux" "aarch64-linux" ]
+        (sys: forSystem sys op);
+    in
+    {
       overlays.default = import ./overlays/default.nix {
         inherit (nixpkgs) lib;
         inherit (inputs) incl im-switch-nvim;
       };
+
+      packages = forEachSystem ({ pkgs, ... }:
+        {
+          default = pkgs.mkNeovim {
+            plugins = with pkgs.vimPlugins; [
+              im-switch-nvim
+            ];
+          };
+        });
     };
 }
