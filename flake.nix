@@ -27,7 +27,7 @@
       forEachSystem = op: lib.genAttrs [ "x86_64-linux" ] (sys: forSystem sys op);
     in
     {
-      overlays.default = import ./overlays {
+      overlays = import ./overlays {
         inherit (nixpkgs) lib;
         inherit (inputs) incl im-switch-nvim;
       };

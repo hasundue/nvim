@@ -5,7 +5,7 @@ final: prev:
 let
   inherit (final) lib;
 
-  utils = final.callPackage ../nix/utils.nix { };
+  utils = final.callPackage ./utils.nix { };
 
   normalizePname = utils.compose [
     (lib.removePrefix "nvim-")
