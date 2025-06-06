@@ -14,17 +14,11 @@
   };
 
   outputs = { nixpkgs, flake-utils, self, ... } @ inputs:
-    let
-      overlays = [
-        (import ./overlays/lib.nix { inherit (inputs) incl; })
-        (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim; })
-        (import ./overlays/mkneovim.nix)
-      ];
-    in
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = import nixpkgs {
-          inherit system overlays;
+          inherit system;
+          overlays = [ self.overlays.default ];
         };
       in
       {
@@ -35,5 +29,8 @@
             ];
           };
         };
-      });
+      }
+    ) // {
+      overlays.default = import ./overlays/default.nix inputs;
+    };
 }

@@ -1,11 +1,15 @@
+{ incl, ... }:
+
 final: prev:
 
 let
-  inherit (final) lib neovimUtils wrapNeovimUnstable neovim-unwrapped;
+  inherit (final) lib;
 
-  normalizePname = lib.compose [
+  utils = final.callPackage ../nix/utils.nix { };
+
+  normalizePname = utils.compose [
     (lib.removePrefix "nvim-")
-    (lib.removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
+    (utils.removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
     (lib.replaceStrings [ "_" ] [ "-" ])
   ];
 
@@ -15,10 +19,9 @@ let
   toLuaModuleSpec = path:
     lib.removePrefix ((toString ../lua) + "/") (lib.removeSuffix ".lua" path);
 
-
   formatRequireLine = spec: ''require("${spec}")'';
 
-  neovimConfig = neovimUtils.makeNeovimConfig { };
+  neovimConfig = final.neovimUtils.makeNeovimConfig { };
 in
 {
   mkNeovim =
@@ -31,7 +34,7 @@ in
           (key: drvs: lib.map (toLuaConfigPath key) drvs)
           attrs
       );
-      configDir = lib.incl ../. luaConfigs;
+      configDir = incl ../. luaConfigs;
 
       modules = lib.map
         toLuaModuleSpec
@@ -39,7 +42,7 @@ in
 
       requireLines = lib.concatLines (map formatRequireLine modules);
     in
-    wrapNeovimUnstable neovim-unwrapped (neovimConfig // {
+    final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       inherit plugins;
 
       luaRcContent = ''

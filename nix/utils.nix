@@ -1,10 +1,6 @@
-{ incl }:
-
-final: prev:
+{ lib, ... }:
 
 let
-  inherit (final) lib;
-
   composeTwo = f: g: x: f (g x);
 
   compose = lib.foldl' composeTwo lib.id;
@@ -13,10 +9,7 @@ let
     compose (map lib.removeSuffix patterns);
 in
 {
-  lib = prev.lib // {
-    inherit
-      compose
-      incl
-      removeSuffixAny;
-  };
+  inherit
+    compose
+    removeSuffixAny;
 }

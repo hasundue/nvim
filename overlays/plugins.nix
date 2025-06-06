@@ -1,4 +1,4 @@
-{ im-switch-nvim }:
+{ im-switch-nvim, ... }:
 
 final: prev:
 
