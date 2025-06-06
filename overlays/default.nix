@@ -1,8 +1,6 @@
-{ incl, im-switch-nvim, ... }:
+{ lib, incl, im-switch-nvim, ... }:
 
-final: prev:
-
-final.lib.composeManyExtensions [
-  (final.callPackage ../mkneovim.nix { })
-  (final.callPackage ../plugins.nix { })
+lib.composeManyExtensions [
+  (import ./mkneovim.nix { inherit incl; })
+  (import ./plugins.nix { inherit im-switch-nvim; })
 ]

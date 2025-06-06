@@ -31,6 +31,9 @@
         };
       }
     ) // {
-      overlays.default = import ./overlays/default.nix inputs;
+      overlays.default = import ./overlays/default.nix {
+        inherit (nixpkgs) lib;
+        inherit (inputs) incl im-switch-nvim;
+      };
     };
 }
