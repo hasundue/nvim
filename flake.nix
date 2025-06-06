@@ -13,25 +13,23 @@
     };
   };
 
-  outputs = { nixpkgs, incl, self, ... } @ inputs:
+  outputs = { nixpkgs, flake-utils, self, ... } @ inputs:
     let
-      lib = builtins // nixpkgs.lib // { inherit incl; };
-      overlays = import ./overlays { inherit (inputs) im-switch-nvim; };
-      forSystem = system: module: (import module) {
-        inherit self lib;
-        pkgs = import nixpkgs { inherit system overlays; };
-      };
+      overlays = [
+        (import ./overlays/lib.nix { inherit (inputs) incl; })
+        (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim; })
+        (import ./overlays/mkneovim.nix)
+      ];
     in
-    lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
-      (system:
-        {
-          __functor = self: (forSystem system ./nix/neovim.nix);
-          modules =
-            let
-              attrs = forSystem system ./nix/modules.nix;
-            in
-            attrs // { all = lib.attrValues attrs; };
-        }
-      ) //
-    (import ./nix/dogfood.nix (inputs // { inherit self; }));
+    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system overlays;
+        };
+      in
+      {
+        packages = {
+          default = pkgs.mkNeovim { };
+        };
+      });
 }
