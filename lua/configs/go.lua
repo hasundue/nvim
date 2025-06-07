@@ -1,4 +1,4 @@
-require("core.lsp").setup("gopls", {
+require("utils.lsp").setup("gopls", {
   cmd = { "gopls" },
   settings = {
     gopls = {

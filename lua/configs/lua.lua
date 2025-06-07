@@ -1,4 +1,4 @@
-require("core.lsp").setup("lua_ls", {
+require("utils.lsp").setup("lua_ls", {
   settings = {
     Lua = {
       hint = {

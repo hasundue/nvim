@@ -1,5 +1,10 @@
 local cmp = require("cmp")
 
+-- Register capabilities for LSP
+require("utils.lsp").register_capabilities(
+  require("cmp_nvim_lsp").default_capabilities()
+)
+
 -- True if we are in the beginning of the line, ignoring whitespaces and tabs.
 ---@return boolean
 local function has_text_before()

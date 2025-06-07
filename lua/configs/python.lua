@@ -1,4 +1,4 @@
-require("core.lsp").setup("pyright", {
+require("utils.lsp").setup("pyright", {
   settings = {
     python = {
       analysis = {
@@ -10,7 +10,7 @@ require("core.lsp").setup("pyright", {
 })
 
 if vim.fn.executable("ruff") == 1 then
-  require("core.lsp").setup("ruff", {
+  require("lua.utils.lsp").setup("ruff", {
     settings = {
       configurationPreferences = "filesystemFirst",
       fixAll = true,
