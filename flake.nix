@@ -33,7 +33,7 @@
       packages = forEachSystem (pkgs:
         {
           default = pkgs.mkNeovim {
-            configs = with pkgs.vimConfigs; [
+            modules = with pkgs.vimModules; [
               nix
             ];
             plugins = with pkgs.vimPlugins; [
