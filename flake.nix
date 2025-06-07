@@ -16,15 +16,13 @@
     let
       lib = nixpkgs.lib;
 
-      forSystem = system: op: op rec {
-        pkgs = import nixpkgs {
+      forSystem = op: system: op
+        (import nixpkgs {
           inherit system;
           overlays = [ self.overlays.default ];
-        };
-        lib = pkgs.lib;
-      };
+        });
 
-      forEachSystem = op: lib.genAttrs [ "x86_64-linux" ] (sys: forSystem sys op);
+      forEachSystem = op: lib.genAttrs [ "x86_64-linux" ] (forSystem op);
     in
     {
       overlays = import ./overlays {
@@ -32,7 +30,7 @@
         inherit (inputs) incl im-switch-nvim;
       };
 
-      packages = forEachSystem ({ pkgs, ... }:
+      packages = forEachSystem (pkgs:
         {
           default = pkgs.mkNeovim {
             configs = with pkgs.vimConfigs; [
