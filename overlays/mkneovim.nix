@@ -5,19 +5,26 @@ final: prev:
 let
   inherit (final) lib;
 
-  utils = final.callPackage ./utils.nix { };
+  compose = fs: e: lib.pipe e fs;
 
-  normalizePname = utils.compose [
+  removeSuffixAny = patterns:
+    compose (map lib.removeSuffix patterns);
+
+  normalizePname = compose [
     (lib.removePrefix "nvim-")
-    (utils.removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
+    (removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
     (lib.replaceStrings [ "-" ] [ "_" ])
   ];
 
-  toLuaConfigPath = base: drv:
-    (toString ../lua) + "/${base}/${normalizePname drv.pname}.lua";
+  luaConfigBase = (toString ../lua) + "/";
 
-  toLuaModuleSpec = path:
-    lib.removePrefix ((toString ../lua) + "/") (lib.removeSuffix ".lua" path);
+  toLuaConfigPath = dir: drv:
+    luaConfigBase + "${dir}/${normalizePname drv.pname}.lua";
+
+  toLuaModuleSpec = compose [
+    (lib.removePrefix luaConfigBase) 
+    (lib.removeSuffix ".lua")
+  ];
 
   formatRequireLine = spec: ''require("${spec}")'';
 

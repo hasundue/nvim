@@ -28,7 +28,7 @@
     in
     {
       overlays = import ./overlays {
-        inherit (nixpkgs) lib;
+        inherit lib;
         inherit (inputs) incl im-switch-nvim;
       };
 
