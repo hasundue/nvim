@@ -45,7 +45,9 @@ in
         (map getLuaConfigPath plugins')
       ];
 
-      configDir = incl ../. luaConfigs;
+      configDir = incl ../. (luaConfigs ++ [
+        ../lua/utils
+      ]);
 
       modules = map
         toLuaModuleSpec
