@@ -35,8 +35,11 @@
       packages = forEachSystem ({ pkgs, ... }:
         {
           default = pkgs.mkNeovim {
+            configs = with pkgs.vimConfigs; [
+              nix
+            ];
             plugins = with pkgs.vimPlugins; [
-              im-switch-nvim
+              noice-nvim
             ];
           };
         });

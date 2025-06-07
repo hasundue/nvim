@@ -14,8 +14,8 @@ final: prev:
         pname = "im-switch-nvim";
         version = src.rev;
 
-        buildInputs = with final; [
-          vimPlugins.plenary-nvim
+        dependencies = with final.vimPlugins; [
+          plenary-nvim
         ];
       };
   };

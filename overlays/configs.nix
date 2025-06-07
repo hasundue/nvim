@@ -1,11 +1,19 @@
-{ ... }:
+{ incl, ... }:
 
 final: prev:
 
 let
+  lib = final.lib;
+
   parsers = final.vimPlugins.nvim-treesitter-parsers;
 
-  configs = {
+  configs = lib.pipe ../lua/configs [
+    builtins.readDir
+    lib.attrNames
+    (map (lib.removeSuffix ".lua"))
+  ];
+
+  deps = {
     deno = {
       packages = with final; [
         deno
@@ -69,8 +77,20 @@ let
       ];
     };
   };
+
+  toVimConfig = name:
+    {
+      luaConfig = toString ../lua/configs + "/${name}.lua";
+      packages =
+        if lib.hasAttr name deps
+        then deps.${name}.packages
+        else [ ];
+      plugins =
+        if lib.hasAttr name deps
+        then deps.${name}.plugins
+        else [ ];
+    };
 in
 {
-  vimConfigs = configs;
+  vimConfigs = lib.genAttrs configs toVimConfig;
 }
-

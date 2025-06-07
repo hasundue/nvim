@@ -10,7 +10,7 @@ let
   removeSuffixAny = patterns:
     compose (map lib.removeSuffix patterns);
 
-  normalizePname = compose [
+  normalizeName = compose [
     (lib.removePrefix "nvim-")
     (removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
     (lib.replaceStrings [ "-" ] [ "_" ])
@@ -18,11 +18,11 @@ let
 
   luaConfigBase = (toString ../lua) + "/";
 
-  toLuaConfigPath = dir: drv:
-    luaConfigBase + "${dir}/${normalizePname drv.pname}.lua";
+  getLuaConfigPath = drv:
+    luaConfigBase + "plugins/${normalizeName drv.pname or drv.name}.lua";
 
   toLuaModuleSpec = compose [
-    (lib.removePrefix luaConfigBase) 
+    (lib.removePrefix luaConfigBase)
     (lib.removeSuffix ".lua")
   ];
 
@@ -32,32 +32,41 @@ let
 in
 {
   mkNeovim =
-    { langs ? [ ]
+    { configs ? [ ]
     , plugins ? [ ]
-    } @ attrs:
+    }:
     let
-      luaConfigs = lib.concatLists (
-        lib.mapAttrsToList
-          (key: drvs: lib.map (toLuaConfigPath key) drvs)
-          attrs
+      plugins' = plugins ++ lib.concatLists (
+        map (c: c.plugins) configs
       );
+
+      luaConfigs = lib.concatLists [
+        (map (c: c.luaConfig) configs)
+        (map getLuaConfigPath plugins')
+      ];
+
       configDir = incl ../. luaConfigs;
 
-      modules = lib.map
+      modules = map
         toLuaModuleSpec
         (lib.filter lib.pathExists luaConfigs);
 
       requireLines = lib.concatLines (map formatRequireLine modules);
+
+      packages = lib.concatLists (
+        map (c: c.packages) configs
+      );
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
-      inherit plugins;
+      plugins = plugins';
 
       luaRcContent = ''
         vim.opt.runtimepath:append("${configDir}");
         ${requireLines}
       '';
 
-      wrapperArgs = neovimConfig.wrapperArgs;
+      wrapperArgs = neovimConfig.wrapperArgs
+        ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
 
       wrapRc = true; # make sure to wrap the rc file for `-u` option
 
