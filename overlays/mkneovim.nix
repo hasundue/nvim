@@ -5,24 +5,22 @@ final: prev:
 let
   inherit (final) lib;
 
-  compose = fs: e: lib.pipe e fs;
+  removeSuffixAny = patterns: str:
+    lib.pipe str (map lib.removeSuffix patterns);
 
-  removeSuffixAny = patterns:
-    compose (map lib.removeSuffix patterns);
-
-  normalizeName = compose [
+  getLuaConfigName = drv: lib.pipe drv [
+    (drv: drv.pname or drv.name)
     (lib.removePrefix "nvim-")
     (removeSuffixAny [ ".nvim" ".lua" "-nvim" ])
     (lib.replaceStrings [ "-" ] [ "_" ])
   ];
 
-  luaConfigBase = (toString ../lua) + "/";
-
   getLuaConfigPath = drv:
-    luaConfigBase + "plugins/${normalizeName drv.pname or drv.name}.lua";
+    ../lua + "/plugins/${getLuaConfigName drv}.lua";
 
-  toLuaModuleSpec = compose [
-    (lib.removePrefix luaConfigBase)
+  toLuaModuleSpec = path: lib.pipe path [
+    toString
+    (lib.removePrefix (toString ../lua))
     (lib.removeSuffix ".lua")
   ];
 
@@ -45,9 +43,7 @@ in
         (map getLuaConfigPath plugins')
       ];
 
-      configDir = incl ../. (luaConfigs ++ [
-        ../lua/utils
-      ]);
+      configDir = incl ../. (luaConfigs ++ [ ../lua/utils ]);
 
       luaModules = map
         toLuaModuleSpec

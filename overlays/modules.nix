@@ -14,7 +14,7 @@ let
   toVimModule = name: attrs:
     {
       inherit (attrs) packages plugins;
-      luaConfig = toString ../lua/configs + "/${name}.lua";
+      luaConfig = ../lua/configs + "/${name}.lua";
     };
 in
 {
