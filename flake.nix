@@ -33,6 +33,7 @@
           default = pkgs.mkNeovim {
             configs = with pkgs.neovimConfigs; [
               opt
+              nix
             ];
             plugins = with pkgs.vimPlugins; [
               kanagawa-nvim

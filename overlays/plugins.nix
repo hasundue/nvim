@@ -2,13 +2,16 @@
 
 final: prev:
 
+let
+  buildVimPlugin = final.vimUtils.buildVimPlugin;
+in
 {
   vimPlugins = prev.vimPlugins // {
     im-switch-nvim =
       let
         src = im-switch-nvim;
       in
-      final.vimUtils.buildVimPlugin {
+      buildVimPlugin {
         inherit src;
 
         pname = "im-switch-nvim";

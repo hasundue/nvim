@@ -31,6 +31,11 @@ let
     else
       drv;
 
+  luaLib = lib.fileset.toSource {
+    root = ../.;
+    fileset = ../lua/lib;
+  };
+
   neovimConfig = final.neovimUtils.makeNeovimConfig { };
 in
 {
@@ -52,9 +57,10 @@ in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       plugins = map overridePlugin plugins';
 
-      luaRcContent = lib.concatStringsSep "\n" (
-        map lib.readFile luaConfigs
-      );
+      luaRcContent = ''
+        vim.opt.runtimepath:append("${luaLib}");
+      ''
+      + lib.concatStringsSep "\n" (map lib.readFile luaConfigs);
 
       wrapperArgs = neovimConfig.wrapperArgs
         ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
