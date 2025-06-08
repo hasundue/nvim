@@ -1,5 +1,3 @@
-{ incl, ... }:
-
 final: prev:
 
 let
@@ -18,29 +16,22 @@ let
   getLuaConfigPath = drv:
     ../lua + "/plugins/${getLuaConfigName drv}.lua";
 
-  toLuaModuleSpec = path: lib.pipe path [
-    toString
-    (lib.removePrefix (toString ../lua))
-    (lib.removeSuffix ".lua")
-  ];
-
-  formatRequireLine = spec: ''require("${spec}")'';
-
-  neovimConfig = final.neovimUtils.makeNeovimConfig { };
-
-  overridePlugin = drv: 
+  overridePlugin = drv:
     let
       luaConfigPath = getLuaConfigPath drv;
     in
     if lib.pathExists luaConfigPath then
-      drv.overrideAttrs (prev: {
-        passthru.initLua = lib.concatStringsSep "\n" (
-          lib.optional (prev.passthru ? initLua) prev.passthru.initLua
-          ++ [ (lib.readFile luaConfigPath) ]
-        );
-      })
+      drv.overrideAttrs
+        (prev: {
+          passthru.initLua = lib.concatStringsSep "\n" (
+            lib.optional (prev.passthru ? initLua) prev.passthru.initLua
+            ++ [ (lib.readFile luaConfigPath) ]
+          );
+        })
     else
       drv;
+
+  neovimConfig = final.neovimUtils.makeNeovimConfig { };
 in
 {
   mkNeovim =
@@ -49,33 +40,21 @@ in
     }:
     let
       plugins' = plugins ++ lib.concatLists (
-        map (c: c.plugins) configs
+        map (c: c.plugins or [ ]) configs
       );
 
-      luaConfigs = lib.concatLists [
-        (map (c: c.luaConfig) configs)
-        (map getLuaConfigPath plugins')
-      ];
-
-      configDir = incl ../. (luaConfigs ++ [ ../lua/utils ]);
-
-      luaModules = map
-        toLuaModuleSpec
-        (lib.filter lib.pathExists luaConfigs);
-
-      requireLines = lib.concatLines (map formatRequireLine luaModules);
+      luaConfigs = map (c: c.luaConfig) configs;
 
       packages = lib.concatLists (
-        map (c: c.packages) configs
+        map (c: c.packages or [ ]) configs
       );
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       plugins = map overridePlugin plugins';
 
-      # luaRcContent = ''
-      #   vim.opt.runtimepath:append("${configDir}");
-      #   ${requireLines}
-      # '';
+      luaRcContent = lib.concatStringsSep "\n" (
+        map lib.readFile luaConfigs
+      );
 
       wrapperArgs = neovimConfig.wrapperArgs
         ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];

@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    incl.url = "github:divnix/incl";
-
     im-switch-nvim = {
       url = "github:drop-stones/im-switch.nvim";
       flake = false;
@@ -27,15 +25,15 @@
     {
       overlays = import ./overlays {
         inherit lib;
-        inherit (inputs) incl im-switch-nvim;
+        inherit (inputs) im-switch-nvim;
       };
 
       packages = forEachSystem (pkgs:
         {
           default = pkgs.mkNeovim {
-            # configs = with pkgs.neovimConfigs; [
-            #   nix
-            # ];
+            configs = with pkgs.neovimConfigs; [
+              opt
+            ];
             plugins = with pkgs.vimPlugins; [
               kanagawa-nvim
             ];

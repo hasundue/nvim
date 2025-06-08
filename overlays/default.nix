@@ -1,4 +1,4 @@
-{ lib, incl, im-switch-nvim, ... }:
+{ lib, im-switch-nvim, ... }:
 
 rec {
   default = lib.composeManyExtensions [
@@ -7,6 +7,6 @@ rec {
     plugins
   ];
   configs = import ./configs.nix;
-  mkneovim = import ./mkneovim.nix { inherit incl; };
+  mkneovim = import ./mkneovim.nix;
   plugins = import ./plugins.nix { inherit im-switch-nvim; };
 }
