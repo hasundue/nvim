@@ -30,16 +30,16 @@ let
 in
 {
   mkNeovim =
-    { modules ? [ ]
+    { configs ? [ ]
     , plugins ? [ ]
     }:
     let
       plugins' = plugins ++ lib.concatLists (
-        map (c: c.plugins) modules
+        map (c: c.plugins) configs
       );
 
       luaConfigs = lib.concatLists [
-        (map (c: c.luaConfig) modules)
+        (map (c: c.luaConfig) configs)
         (map getLuaConfigPath plugins')
       ];
 
@@ -52,7 +52,7 @@ in
       requireLines = lib.concatLines (map formatRequireLine luaModules);
 
       packages = lib.concatLists (
-        map (c: c.packages) modules
+        map (c: c.packages) configs
       );
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {

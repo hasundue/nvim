@@ -3,10 +3,10 @@
 rec {
   default = lib.composeManyExtensions [
     mkneovim
-    modules
+    configs
     plugins
   ];
-  modules = import ./modules.nix;
+  configs = import ./configs.nix;
   mkneovim = import ./mkneovim.nix { inherit incl; };
   plugins = import ./plugins.nix { inherit im-switch-nvim; };
 }
