@@ -33,11 +33,11 @@
       packages = forEachSystem (pkgs:
         {
           default = pkgs.mkNeovim {
-            configs = with pkgs.neovimConfigs; [
-              nix
-            ];
+            # configs = with pkgs.neovimConfigs; [
+            #   nix
+            # ];
             plugins = with pkgs.vimPlugins; [
-              noice-nvim
+              kanagawa-nvim
             ];
           };
         });

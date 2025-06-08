@@ -27,6 +27,20 @@ let
   formatRequireLine = spec: ''require("${spec}")'';
 
   neovimConfig = final.neovimUtils.makeNeovimConfig { };
+
+  overridePlugin = drv: 
+    let
+      luaConfigPath = getLuaConfigPath drv;
+    in
+    if lib.pathExists luaConfigPath then
+      drv.overrideAttrs (prev: {
+        passthru.initLua = lib.concatStringsSep "\n" (
+          lib.optional (prev.passthru ? initLua) prev.passthru.initLua
+          ++ [ (lib.readFile luaConfigPath) ]
+        );
+      })
+    else
+      drv;
 in
 {
   mkNeovim =
@@ -56,12 +70,12 @@ in
       );
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
-      plugins = plugins';
+      plugins = map overridePlugin plugins';
 
-      luaRcContent = ''
-        vim.opt.runtimepath:append("${configDir}");
-        ${requireLines}
-      '';
+      # luaRcContent = ''
+      #   vim.opt.runtimepath:append("${configDir}");
+      #   ${requireLines}
+      # '';
 
       wrapperArgs = neovimConfig.wrapperArgs
         ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
