@@ -41,22 +41,24 @@ in
   mkNeovim =
     { configs ? [ ]
     , plugins ? [ ]
+    , includeLib ? true
     }:
     let
-      plugins' = lib.foldl' (acc: c: acc ++ c.plugins or [ ]) plugins configs;
-      packages = lib.foldl' (acc: c: acc ++ c.packages or [ ]) [ ] configs;
+      plugins' = lib.foldl' (ps: c: ps ++ c.plugins or [ ]) plugins configs;
+      packages = lib.foldl' (ps: c: ps ++ c.packages or [ ]) [ ] configs;
       luaConfigs = map (c: c.luaConfig) configs;
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       plugins = map overridePlugin plugins';
 
-      luaRcContent = ''
+      luaRcContent = lib.optionalString includeLib ''
         vim.opt.runtimepath:append("${luaLib}");
       ''
       + lib.concatStringsSep "\n" (map lib.readFile luaConfigs);
 
       wrapperArgs = neovimConfig.wrapperArgs
-        ++ [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
+        ++ lib.optionals (packages != [ ])
+        [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
 
       wrapRc = true; # make sure to wrap the rc file for `-u` option
 
