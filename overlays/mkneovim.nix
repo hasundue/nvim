@@ -23,10 +23,9 @@ let
     if lib.pathExists luaConfigPath then
       drv.overrideAttrs
         (prev: {
-          passthru.initLua = lib.concatStringsSep "\n" (
-            lib.optional (prev.passthru ? initLua) prev.passthru.initLua
-            ++ [ (lib.readFile luaConfigPath) ]
-          );
+          passthru.initLua =
+            lib.optionalString (prev.passthru ? initLua) prev.passthru.initLua
+            + lib.readFile luaConfigPath;
         })
     else
       drv;
@@ -44,15 +43,9 @@ in
     , plugins ? [ ]
     }:
     let
-      plugins' = plugins ++ lib.concatLists (
-        map (c: c.plugins or [ ]) configs
-      );
-
+      plugins' = lib.foldl' (acc: c: acc ++ c.plugins or [ ]) plugins configs;
+      packages = lib.foldl' (acc: c: acc ++ c.packages or [ ]) [ ] configs;
       luaConfigs = map (c: c.luaConfig) configs;
-
-      packages = lib.concatLists (
-        map (c: c.packages or [ ]) configs
-      );
     in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       plugins = map overridePlugin plugins';
