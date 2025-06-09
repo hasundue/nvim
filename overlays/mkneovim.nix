@@ -40,6 +40,7 @@ in
 {
   mkNeovim =
     { configs ? [ ]
+    , lsp ? [ ]
     , plugins ? [ ]
     , includeLib ? true
     }:

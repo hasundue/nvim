@@ -1,4 +1,4 @@
-require("utils.lsp").setup("gopls", {
+vim.lsp.config("gopls", {
   cmd = { "gopls" },
   settings = {
     gopls = {
