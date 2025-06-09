@@ -1,3 +1,3 @@
-require("utils.lsp").setup("ts_ls", {
+return {
   single_file_support = false,
-})
+}

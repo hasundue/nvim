@@ -1,4 +1,4 @@
-vim.lsp.config("gopls", {
+return {
   cmd = { "gopls" },
   settings = {
     gopls = {
@@ -8,11 +8,4 @@ vim.lsp.config("gopls", {
       staticcheck = true,
     },
   },
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function()
-    vim.opt.expandtab = false
-  end,
-})
+}

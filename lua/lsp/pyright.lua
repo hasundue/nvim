@@ -1,4 +1,4 @@
-vim.lsp.config("pyright", {
+return {
   settings = {
     python = {
       analysis = {
@@ -7,4 +7,4 @@ vim.lsp.config("pyright", {
       },
     },
   },
-})
+}

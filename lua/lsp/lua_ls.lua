@@ -5,10 +5,6 @@ return {
         enable = false,
       },
       runtime = {
-        path = {
-          "?.lua",
-          "?/init.lua",
-        },
         pathStrict = true,
         version = "LuaJIT",
       },

@@ -1,4 +1,4 @@
-vim.lsp.config("ruff", {
+return {
   settings = {
     configurationPreferences = "filesystemFirst",
     fixAll = true,
@@ -11,4 +11,4 @@ vim.lsp.config("ruff", {
     },
     organizeImports = true,
   },
-})
+}

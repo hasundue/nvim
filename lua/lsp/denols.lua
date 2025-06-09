@@ -1,4 +1,4 @@
-require("utils.lsp").setup("denols", {
+return {
   cmd = { "deno", "lsp" },
   settings = {
     deno = {
@@ -15,4 +15,4 @@ require("utils.lsp").setup("denols", {
     },
   },
   single_file_support = true,
-})
+}
