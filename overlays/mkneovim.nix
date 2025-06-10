@@ -42,7 +42,6 @@ in
     { configs ? [ ]
     , lsp ? [ ]
     , plugins ? [ ]
-    , includeLib ? true
     }:
     let
       plugins' = lib.foldl' (ps: c: ps ++ c.plugins or [ ]) plugins configs;
@@ -52,7 +51,7 @@ in
     final.wrapNeovimUnstable final.neovim-unwrapped (neovimConfig // {
       plugins = map overridePlugin plugins';
 
-      luaRcContent = lib.optionalString includeLib ''
+      luaRcContent = ''
         vim.opt.runtimepath:append("${luaLib}");
       ''
       + lib.concatStringsSep "\n" (map lib.readFile luaConfigs);
