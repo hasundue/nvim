@@ -5,7 +5,7 @@ let
 in
 lib.mapAttrs pkgs.mkNeovim {
   deno = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       deno
     ];
     plugins = with p; [
@@ -19,7 +19,7 @@ lib.mapAttrs pkgs.mkNeovim {
   };
 
   go = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       gopls
     ];
     plugins = with p; [
@@ -29,7 +29,7 @@ lib.mapAttrs pkgs.mkNeovim {
   };
 
   lua = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       lua-language-server
     ];
     plugins = with p; [
@@ -39,7 +39,7 @@ lib.mapAttrs pkgs.mkNeovim {
   };
 
   nix = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       nil
     ];
     plugins = with p; [
@@ -48,7 +48,7 @@ lib.mapAttrs pkgs.mkNeovim {
   };
 
   python = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       pyright
     ];
     plugins = with p; [
@@ -58,7 +58,7 @@ lib.mapAttrs pkgs.mkNeovim {
   };
 
   rust = {
-    packages = with pkgs; [
+    ls = with pkgs; [
       rust-analyzer
     ];
     plugins = with p; [
