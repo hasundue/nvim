@@ -1,6 +1,7 @@
-require("im-switch").setup({
+---@diagnostic disable-next-line: missing-fields
+require("im-switch").setup {
   windows = {
-    enabled = true,
+    enabled = false,
   },
   linux = {
     enabled = true,
@@ -8,4 +9,4 @@ require("im-switch").setup({
     get_im_command = { "fcitx5-remote", "-n" },
     set_im_command = { "fcitx5-remote", "-s" },
   },
-})
+}
