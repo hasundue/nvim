@@ -17,3 +17,6 @@ require("copilot").setup({
     },
   },
 })
+
+-- Make copilot 'q'uiet
+vim.keymap.set({ "i", "n" }, "<C-q>", require("copilot.suggestion").toggle_auto_trigger)

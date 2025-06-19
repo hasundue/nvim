@@ -22,16 +22,9 @@ opt.laststatus = 3
 --
 g.mapleader = " "
 opt.splitright = true
-opt.updatetime = 100
+opt.updatetime = 1000
 
 --
 -- editing --------------------------------------
 --
-opt.expandtab = true
-opt.smarttab = true
-
-opt.shiftwidth = 2
-opt.tabstop = 2
-
-opt.autoindent = true
 opt.smartindent = true

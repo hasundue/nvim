@@ -1,8 +1,4 @@
-local util = require("lspconfig.util")
-
-require("core.lsp").setup("denols", {
-  cmd = { "deno", "lsp" },
-  root_dir = util.root_pattern("deno.lock", "deno.json", "deno.jsonc", "denops"),
+require("my.lsp").setup("denols", {
   settings = {
     deno = {
       enable = true,
@@ -17,5 +13,11 @@ require("core.lsp").setup("denols", {
       },
     },
   },
-  single_file_support = true,
 })
+
+require("my.lsp").setup("ts_ls")
+
+vim.opt.expandtab = true
+
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2

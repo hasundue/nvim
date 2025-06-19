@@ -8,7 +8,9 @@ require('nvim-treesitter.configs').setup({
   ignore_install = {},
   indent = {
     enable = true,
-    disable = {},
+    disable = {
+      "nix",
+    },
   },
   modules = {},
   sync_install = false,

@@ -1,6 +1,6 @@
 -- set the floaterm window size
 vim.g.floaterm_width = 0.8
-vim.g.floaterm_height = 0.8
+vim.g.floaterm_height = 0.9
 
 local function map(mode, lhs, rhs)
   vim.keymap.set(mode, lhs, rhs, { noremap = true })
@@ -41,8 +41,7 @@ end
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
   pattern = { "*" },
   callback = function()
-    maplocal("t", "<Esc>", "<C-\\><C-n>")
-    maplocal("t", "<C-[>", "<C-\\><C-n>")
-    maplocal("n", "<C-[>", exec("FloatermHide"))
+    maplocal("t", "<C-\\>", "<C-\\><C-n>")
+    maplocal("n", "<C-\\>", exec("FloatermHide"))
   end
 })

@@ -1,9 +1,6 @@
 local devicons = require("nvim-web-devicons")
 
 require("incline").setup({
-  window = {
-    margin = { horizontal = 0 },
-  },
   render = function(props)
     local bufname = vim.api.nvim_buf_get_name(props.buf)
     local filename = vim.fn.fnamemodify(bufname, ":~:.")
@@ -17,4 +14,7 @@ require("incline").setup({
       { filename, gui = modified and "bold,italic" or "bold" },
     }
   end,
+  window = {
+    margin = { horizontal = 0 },
+  },
 })
