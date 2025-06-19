@@ -2,7 +2,7 @@
   description = "My Neovim flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     im-switch-nvim = {
       url = "github:drop-stones/im-switch.nvim";
