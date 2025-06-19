@@ -11,13 +11,12 @@ let
   removeSuffixAny = patterns: str:
     lib.pipe str (map lib.removeSuffix patterns);
 
-  getLuaScriptName = drv: lib.pipe drv [
-    (drv: drv.pname or drv.name)
-    (removePrefixAny [ "nvim-" "vim-" "vimplugin-treesitter-grammar-" ])
-    (removeSuffixAny [ ".nvim" ".lua" ".vim" "-nvim" ])
-    (lib.replaceStrings [ "." "-" ] [ "_" "_" ])
-    (name: "${name}.lua")
-  ];
+  getLuaScriptName = drv: drv
+    |> (drv: drv.pname or drv.name)
+    |> removePrefixAny [ "nvim-" "vim-" "vimplugin-treesitter-grammar-" ]
+    |> removeSuffixAny [ ".nvim" ".lua" "-nvim" ]
+    |> lib.replaceStrings [ "-" "." ] [ "_" "_" ]
+    |> (name: "${name}.lua");
 
   toFileSet = dir: map (
     drv: lib.fileset.maybeMissing (
