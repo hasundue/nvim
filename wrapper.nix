@@ -1,6 +1,6 @@
 pkgs:
 
-{ wrapLua ? true }:
+{ dev ? false }:
 
 let
   lib = pkgs.lib;
@@ -38,7 +38,7 @@ in
 , utils ? [ ]     # [ Path ]       (pkgs.mkNeovim.utils)
 }:
 let
-  rtp = lib.fileset.toSource {
+  rtp = if dev then "." else lib.fileset.toSource {
     root = ./.;
     fileset =
       lib.fileset.unions (
@@ -53,10 +53,10 @@ pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (neovimConfig // {
   plugins = plugins ++ filetypes;
 
   wrapperArgs = neovimConfig.wrapperArgs
-    ++ lib.optionals wrapLua (toWrapperArgs [
+    ++ toWrapperArgs [
       "--clean"
       ''--cmd "set rtp+=${rtp},${rtp}/after"''
-    ])
+    ]
     ++ lib.optionals (packages != [ ])
       [ "--suffix" "PATH" ":" (lib.makeBinPath packages) ];
 

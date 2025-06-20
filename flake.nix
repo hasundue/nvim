@@ -31,37 +31,23 @@
         )
         (builtins.readDir dir);
 
-      makeNvimAttrs = pkgs: wrapperFlags: rec {
-        wrap = import ./wrapper.nix pkgs wrapperFlags;
-        modules = import ./modules.nix pkgs;
-
-        configs = scanDir ./plugin;
-        utils = scanDir ./lua/my;
-
+      makeNvimAttrs = pkgs: { dev ? false }: rec {
+        wrap = import ./wrapper.nix pkgs { inherit dev; };
         compose = modules: wrap (
           lib.zipAttrsWith
             (name: values: lib.concatLists values)
             modules
         );
-      };
+      } // (lib.optionalAttrs (!dev) {
+        modules = import ./modules.nix pkgs;
+        configs = scanDir ./plugin;
+        utils = scanDir ./lua/my;
+      });
     in
     {
-      apps = forEachSystem (pkgs:
-        let
-          nvim = pkgs.nvim-dev;
-          system = pkgs.system;
-        in
-        {     
-          full-dev = {
-            type = "app";
-            meta.description = "run packages.${system}.full in development mode";
-            program = lib.getExe (nvim.compose (lib.attrValues nvim.modules));
-          };
-        });
-
       packages = forEachSystem (pkgs:
         let
-          inherit (pkgs) nvim;
+          inherit (pkgs) nvim nvim-dev;
         in
         with nvim.modules;
           lib.mapAttrs 
@@ -74,6 +60,7 @@
           // {
             default = nvim.compose [ core dev lua nix ];
             full = nvim.compose (lib.attrValues nvim.modules);
+            full-dev = nvim-dev.compose (lib.attrValues nvim.modules);
           }
       );
 
@@ -83,8 +70,6 @@
             buildInputs = [ neovim ];
           })
           self.packages.${pkgs.system}
-        // 
-        { default = import ./shell.nix pkgs; }
       );
 
       overlays = {
@@ -97,7 +82,7 @@
             };
         };
         dev = final: prev: {
-          nvim-dev = makeNvimAttrs final { wrapLua = false; };
+          nvim-dev = makeNvimAttrs final { dev = true; };
         };
       };
     };
