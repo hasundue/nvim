@@ -6,11 +6,6 @@ require("my.lsp").setup("nil_ls", {
         autoEvalInputs = true,
       },
     },
-    ["nil"] = {
-      formatting = vim.fn.executable("nixpkgs-fmt") > 0 and {
-        command = { "nixpkgs-fmt" },
-      } or nil,
-    },
   },
 })
 

@@ -87,7 +87,6 @@ in
   nix = {
     packages = with pkgs; [
       nil
-      nixpkgs-fmt
     ];
     filetypes = with prss; [
       nix
