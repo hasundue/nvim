@@ -6,7 +6,7 @@ require("my.lsp").setup("ruff", {
   },
 })
 
-vim.opt.expandtab = false
+vim.opt.expandtab = true
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
