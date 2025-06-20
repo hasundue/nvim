@@ -43,6 +43,7 @@ in
       noice-nvim
       no-neck-pain-nvim
       nvim-lspconfig
+      nvim-spectre
       nvim-web-devicons
       oil-nvim
       telescope-nvim
