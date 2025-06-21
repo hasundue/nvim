@@ -102,14 +102,18 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "path": "..",
-        "type": "path"
+        "lastModified": 1750518506,
+        "narHash": "sha256-NKEGFRlIaNnp0W2B44gCZ8HuISMpflK+9w/Q8KjtqYI=",
+        "owner": "hasundue",
+        "repo": "nvim",
+        "rev": "0ad8f7a0cca66875248d279f19f01a7ffc92f807",
+        "type": "github"
       },
       "original": {
-        "path": "..",
-        "type": "path"
-      },
-      "parent": []
+        "owner": "hasundue",
+        "repo": "nvim",
+        "type": "github"
+      }
     },
     "nvim-dev": {
       "inputs": {

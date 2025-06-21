@@ -6,8 +6,7 @@
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
-    # nvim.url = "github:hasundue/nvim";
-    nvim.url = "path:..";
+    nvim.url = "github:hasundue/nvim";
     nvim-dev.url = "path:..";
   };
 
