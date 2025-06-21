@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    git-hooks.url = "github:cachix/git-hooks.nix";
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     nvim.url = "github:hasundue/nvim";
@@ -13,6 +14,7 @@
   outputs =
     {
       nixpkgs,
+      git-hooks,
       nvim,
       nvim-dev,
       treefmt-nix,
@@ -52,13 +54,25 @@
               lua
               nix
             ];
-          treefmt = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+          treefmt = (treefmt-nix.lib.evalModule pkgs ./treefmt.nix).config.build.wrapper;
+          pre-commit = git-hooks.lib.${system}.run {
+            src = ../.;
+            hooks = {
+              treefmt = {
+                enable = true;
+                package = treefmt;
+              };
+            };
+          };
         in
         {
           default = pkgs.mkShell {
             packages = [
               neovim
-              treefmt.config.build.wrapper
+              treefmt
+            ];
+            shellHook = lib.concatLines [
+              pre-commit.shellHook
             ];
           };
         }
