@@ -24,7 +24,12 @@
           }
         );
 
-      forEachSystem = op: lib.genAttrs lib.systems.flakeExposed (forSystem op);
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      forEachSystem = op: lib.genAttrs supportedSystems (forSystem op);
 
       nvimOverlay = import ./overlays/nvim.nix { };
       nvimDevOverlay = import ./overlays/nvim.nix { dev = true; };
@@ -34,8 +39,6 @@
       };
     in
     {
-      packages = forEachSystem (pkgs: pkgs.nvim.pkgs);
-
       devShells = forEachSystem (
         pkgs:
         lib.mapAttrs (
@@ -46,9 +49,13 @@
         ) pkgs.nvim.pkgs
       );
 
+      lib = { inherit supportedSystems; };
+
       overlays = {
         default = lib.composeExtensions nvimOverlay pluginsOverlay;
         dev = lib.composeExtensions nvimDevOverlay pluginsOverlay;
       };
+
+      packages = forEachSystem (pkgs: pkgs.nvim.pkgs);
     };
 }

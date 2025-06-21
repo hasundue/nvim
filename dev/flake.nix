@@ -22,7 +22,7 @@
     }:
     let
       inherit (nixpkgs) lib;
-      forEachSystem = lib.genAttrs lib.systems.flakeExposed;
+      forEachSystem = lib.genAttrs nvim-dev.lib.supportedSystems;
     in
     {
       apps = forEachSystem (
