@@ -56,7 +56,7 @@
         in
         {
           default = pkgs.mkShell {
-            buildInputs = [
+            packages = [
               neovim
               treefmt.config.build.wrapper
             ];
