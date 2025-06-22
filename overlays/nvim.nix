@@ -8,7 +8,7 @@ let
   inherit (final) lib;
   pkgs = final;
 
-  wrapNeovim = pkgs.callPackage ../packages/wrapper.nix { inherit dev; };
+  wrapNeovim = pkgs.callPackage ../pkgs/wrapper.nix { inherit dev; };
 
   scanDir =
     dir:
