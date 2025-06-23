@@ -31,12 +31,12 @@
 
       forEachSystem = op: lib.genAttrs supportedSystems (forSystem op);
 
-      nvimOverlay = import ./overlays/nvim.nix { };
-      nvimDevOverlay = import ./overlays/nvim.nix { dev = true; };
-
-      pluginsOverlay = import ./overlays/plugins.nix {
-        inherit (inputs) im-switch-nvim;
-      };
+      mkOverlay =
+        opts:
+        lib.composeManyExtensions [
+          (import ./overlays/nvim.nix opts)
+          (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim; })
+        ];
     in
     {
       devShells = forEachSystem (
@@ -52,8 +52,8 @@
       lib = { inherit supportedSystems; };
 
       overlays = {
-        default = lib.composeExtensions nvimOverlay pluginsOverlay;
-        dev = lib.composeExtensions nvimDevOverlay pluginsOverlay;
+        default = mkOverlay { };
+        dev = mkOverlay { dev = true; };
       };
 
       packages = forEachSystem (pkgs: pkgs.nvim.pkgs);
