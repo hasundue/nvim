@@ -20,7 +20,7 @@
         op (
           import nixpkgs {
             inherit system;
-            overlays = lib.attrValues self.overlays;
+            overlays = [ self.overlays.default ];
           }
         );
 
