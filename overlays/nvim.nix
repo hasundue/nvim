@@ -83,6 +83,7 @@ mkNvimAttr
     dev = extendAttrs core {
       configs = with c; [
         clipboard
+        location
         lsp
         terminal
       ];
