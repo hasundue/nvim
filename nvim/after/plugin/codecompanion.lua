@@ -1,16 +1,21 @@
 require('codecompanion').setup({
+  adapters = {
+    copilot = function()
+      return require('codecompanion.adapters').extend('copilot', {
+        schema = {
+          model = {
+            default = 'claude-3.7-sonnet',
+          },
+        },
+      })
+    end,
+  },
   strategies = {
     chat = {
-      adapter = {
-        name = 'copilot',
-        model = 'gpt-4.1',
-      },
+      adapter = 'copilot',
     },
     inline = {
-      adapter = {
-        name = 'copilot',
-        model = 'gpt-4.1',
-      },
+      adapter = 'copilot',
     },
   },
   opts = {
