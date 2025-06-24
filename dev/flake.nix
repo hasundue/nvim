@@ -7,7 +7,7 @@
     git-hooks.url = "github:cachix/git-hooks.nix";
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
-    nvim.url = "github:hasundue/nvim";
+    nvim.url = "git+file:../nvim?ref=main";
     nvim-dev.url = "path:..";
   };
 
