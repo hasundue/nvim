@@ -1,4 +1,3 @@
-local g = vim.g
 local opt = vim.opt
 
 --
@@ -20,7 +19,6 @@ opt.laststatus = 3
 --
 -- commands -------------------------------------
 --
-g.mapleader = ' '
 opt.splitright = true
 opt.updatetime = 1000
 

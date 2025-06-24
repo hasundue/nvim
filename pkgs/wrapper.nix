@@ -46,6 +46,7 @@ in
 {
   configs ? [ ], # [ Path ] (pkgs.mkNeovim.configs)
   filetypes ? [ ], # [ Derivation ] (pkgs.vimPlugins.nvim-treesitter-parsers)
+  init ? [ ../nvim/init.lua ], # [ Path ]
   packages ? [ ], # [ Derivation ] (pkgs)
   plugins ? [ ], # [ Derivation ] (pkgs.vimPlugins)
   utils ? [ ], # [ Path ] (pkgs.mkNeovim.utils)
@@ -73,10 +74,17 @@ wrapNeovimUnstable neovim-unwrapped (
         ++ (
           if dev then
             [
-              ''--cmd "lua if vim.env.PWD then vim.opt.rtp:prepend(vim.env.PWD .. '/nvim'); vim.opt.rtp:append(vim.env.PWD .. '/nvim/after') end"''
+              ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim')"''
+              ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim/after')"''
+            ]
+            ++ lib.optionals (init != [ ]) [
+              ''--cmd "execute 'source ' . getcwd() . '/nvim/init.lua'"''
             ]
           else
             [ ''--cmd "set rtp+=${rtp},${rtp}/after"'' ]
+            ++ lib.optionals (init != [ ]) [
+              ''--cmd "source ${builtins.head init}"''
+            ]
         )
       )
       ++ lib.optionals (packages != [ ]) [
