@@ -51,19 +51,15 @@ in
   utils ? [ ], # [ Path ] (pkgs.mkNeovim.utils)
 }:
 let
-  rtp =
-    if dev then
-      "./nvim"
-    else
-      lib.fileset.toSource {
-        root = ../nvim;
-        fileset = lib.fileset.unions (
-          configs
-          ++ utils
-          ++ toFileSet ../nvim/after/ftplugin filetypes
-          ++ toFileSet ../nvim/after/plugin plugins
-        );
-      };
+  rtp = lib.fileset.toSource {
+    root = ../nvim;
+    fileset = lib.fileset.unions (
+      configs
+      ++ utils
+      ++ toFileSet ../nvim/after/ftplugin filetypes
+      ++ toFileSet ../nvim/after/plugin plugins
+    );
+  };
 in
 wrapNeovimUnstable neovim-unwrapped (
   neovimConfig
@@ -72,10 +68,17 @@ wrapNeovimUnstable neovim-unwrapped (
 
     wrapperArgs =
       neovimConfig.wrapperArgs
-      ++ toWrapperArgs [
-        "--clean"
-        ''--cmd "set rtp+=${rtp},${rtp}/after"''
-      ]
+      ++ toWrapperArgs (
+        [ "--clean" ]
+        ++ (
+          if dev then
+            [
+              ''--cmd "lua if vim.env.PWD then vim.opt.rtp:prepend(vim.env.PWD .. '/nvim'); vim.opt.rtp:append(vim.env.PWD .. '/nvim/after') end"''
+            ]
+          else
+            [ ''--cmd "set rtp+=${rtp},${rtp}/after"'' ]
+        )
+      )
       ++ lib.optionals (packages != [ ]) [
         "--suffix"
         "PATH"
