@@ -88,6 +88,7 @@ mkNvimAttr
       ];
       plugins = with p; [
         blink-cmp
+        claude-code-nvim
         codecompanion-nvim
         copilot-lua
         im-switch-nvim
@@ -97,6 +98,7 @@ mkNvimAttr
         nvim-spectre
         nvim-web-devicons
         oil-nvim
+        plenary-nvim
         telescope-nvim
         vim-floaterm
       ];
