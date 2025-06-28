@@ -175,18 +175,17 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1750768753,
-        "narHash": "sha256-y7QjYNqm69F2rU4/PKLIbakl9l6cPWLCxQkd+0HA6BU=",
-        "ref": "main",
-        "rev": "1d73c2cfa9763c69f026d1ca2841e57e0987d21f",
-        "revCount": 229,
-        "type": "git",
-        "url": "file:../nvim"
+        "lastModified": 1750774385,
+        "narHash": "sha256-LD8sFLOE38gorQHoY5mIxhnQq7Q7HsAg2G0l4OlUjBs=",
+        "owner": "hasundue",
+        "repo": "nvim",
+        "rev": "44e95d7603459f33de8e61db6db87117aa760231",
+        "type": "github"
       },
       "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "file:../nvim"
+        "owner": "hasundue",
+        "repo": "nvim",
+        "type": "github"
       }
     },
     "nvim-dev": {
