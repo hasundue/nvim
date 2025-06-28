@@ -150,4 +150,8 @@ mkNvimAttr
       packages = with pkgs; [ rust-analyzer ];
       filetypes = with f; [ rust ];
     };
+
+    zig = {
+      filetypes = with f; [ zig ];
+    };
   }
