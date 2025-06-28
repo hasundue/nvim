@@ -47,6 +47,7 @@ let
           configs = c;
           utils = u;
           pkgs = lib.mapAttrs (_: ext: wrapNeovim (extendAttrs dev ext)) exts // {
+            default = wrapNeovim dev;
             full = wrapNeovim (extendAttrs dev (lib.attrValues exts));
           };
         };
@@ -103,6 +104,7 @@ mkNvimAttr
         telescope-nvim
         vim-floaterm
       ];
+      filetypes = with f; [ nix ];
     };
   }
   {
@@ -134,11 +136,6 @@ mkNvimAttr
         lua
         luadoc
       ];
-    };
-
-    nix = {
-      packages = with pkgs; [ nil ];
-      filetypes = with f; [ nix ];
     };
 
     python = {
