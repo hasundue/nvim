@@ -119,9 +119,6 @@ mkNvimAttr
     };
 
     go = {
-      packages = with pkgs; [
-        gopls
-      ];
       filetypes = with f; [
         go
         gomod
@@ -129,9 +126,6 @@ mkNvimAttr
     };
 
     lua = {
-      packages = with pkgs; [
-        lua-language-server
-      ];
       filetypes = with f; [
         lua
         luadoc
@@ -139,12 +133,10 @@ mkNvimAttr
     };
 
     python = {
-      packages = with pkgs; [ pyright ];
       filetypes = with f; [ python ];
     };
 
     rust = {
-      packages = with pkgs; [ rust-analyzer ];
       filetypes = with f; [ rust ];
     };
 
