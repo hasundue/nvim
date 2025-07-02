@@ -16,8 +16,8 @@ let
       name: _: lib.nameValuePair (lib.removeSuffix ".lua" name) (lib.path.append dir name)
     ) (builtins.readDir dir);
 
-  c = scanDir ../nvim/plugin;
-  u = scanDir ../nvim/lua/my;
+  configs = scanDir ../nvim/plugin;
+  utils = scanDir ../nvim/lua/my;
 
   p = pkgs.vimPlugins;
   f = p.nvim-treesitter-parsers;
@@ -43,9 +43,7 @@ let
         makeExtendable { }
         // lib.mapAttrs (_: attrs: makeExtendable attrs) bases
         // {
-          inherit exts;
-          configs = c;
-          utils = u;
+          inherit exts configs utils;
           pkgs = lib.mapAttrs (_: ext: wrapNeovim (extendAttrs dev ext)) exts // {
             default = wrapNeovim dev;
             full = wrapNeovim (extendAttrs dev (lib.attrValues exts));
@@ -56,7 +54,7 @@ in
 mkNvimAttr
   rec {
     core = {
-      configs = with c; [
+      configs = with configs; [
         opt
       ];
       filetypes = with f; [
@@ -76,13 +74,13 @@ mkNvimAttr
         nvim-surround
         nvim-treesitter
       ];
-      utils = with u; [
+      utils = with utils; [
         lsp
       ];
     };
 
     dev = extendAttrs core {
-      configs = with c; [
+      configs = with configs; [
         clipboard
         location
         lsp
@@ -138,6 +136,14 @@ mkNvimAttr
 
     rust = {
       filetypes = with f; [ rust ];
+    };
+
+    c = {
+      filetypes = with f; [ c ];
+    };
+
+    cpp = {
+      filetypes = with f; [ cpp ];
     };
 
     zig = {
