@@ -1,25 +1,42 @@
+local show_diagnostic_float = function()
+  local opts = {
+    focusable = false,
+    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+    border = 'rounded',
+    source = 'always',
+    prefix = ' ',
+    scope = 'line',
+  }
+  vim.diagnostic.open_float(nil, opts)
+end
+
 vim.lsp.config('*', {
   root_markers = { '.git' },
   workspace = { didChangeWatchedFiles = { dynamicRegistration = true } },
+})
 
-  on_attach = function(client, bufnr)
-    -- Auto-display diagnostics in a floating window.
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('my.lsp', { clear = true }),
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    if not client then
+      return
+    end
+
+    vim.keymap.set(
+      'n',
+      '<leader>d',
+      show_diagnostic_float,
+      { buffer = bufnr, desc = 'Show line diagnostics' }
+    )
+
     vim.api.nvim_create_autocmd('CursorHold', {
       buffer = bufnr,
-      callback = function()
-        local opts = {
-          focusable = false,
-          close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-          border = 'rounded',
-          source = 'always',
-          prefix = ' ',
-          scope = 'line',
-        }
-        vim.diagnostic.open_float(nil, opts)
-      end,
+      callback = show_diagnostic_float,
     })
-    -- Auto-format ("lint") on save.
-    -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+
     if
       not client:supports_method('textDocument/willSaveWaitUntil')
       and client:supports_method('textDocument/formatting')
