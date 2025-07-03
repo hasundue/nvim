@@ -37,8 +37,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       callback = show_diagnostic_float,
     })
 
+    -- Only setup LSP formatting if conform is not available
     if
-      not client:supports_method('textDocument/willSaveWaitUntil')
+      not pcall(require, 'conform')
+      and not client:supports_method('textDocument/willSaveWaitUntil')
       and client:supports_method('textDocument/formatting')
     then
       vim.api.nvim_create_autocmd('BufWritePre', {
