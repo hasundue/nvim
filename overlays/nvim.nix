@@ -89,7 +89,6 @@ mkNvimAttr
       plugins = with p; [
         blink-cmp
         claude-code-nvim
-        codecompanion-nvim
         copilot-lua
         im-switch-nvim
         incline-nvim
@@ -106,6 +105,12 @@ mkNvimAttr
     };
   }
   {
+    codecompanion = {
+      plugins = with p; [
+        codecompanion-nvim
+      ];
+    };
+
     deno = {
       filetypes = with f; [
         javascript
