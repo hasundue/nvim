@@ -2,8 +2,6 @@
   description = "Development environment for hasundue/nvim";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
     git-hooks.url = "github:cachix/git-hooks.nix";
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
@@ -13,7 +11,6 @@
 
   outputs =
     {
-      nixpkgs,
       git-hooks,
       nvim,
       nvim-dev,
@@ -21,6 +18,7 @@
       ...
     }:
     let
+      nixpkgs = nvim-dev.inputs.nixpkgs;
       inherit (nixpkgs) lib;
       forEachSystem = lib.genAttrs nvim-dev.lib.supportedSystems;
     in
