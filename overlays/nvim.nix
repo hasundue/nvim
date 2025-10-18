@@ -88,7 +88,7 @@ mkNvimAttr
       ];
       plugins = with p; [
         blink-cmp
-        claude-code-nvim
+        opencode-nvim
         copilot-lua
         im-switch-nvim
         incline-nvim
@@ -105,6 +105,12 @@ mkNvimAttr
     };
   }
   {
+    claude-code = {
+      plugins = with p; [
+        claude-code-nvim
+      ];
+    };
+
     codecompanion = {
       plugins = with p; [
         codecompanion-nvim

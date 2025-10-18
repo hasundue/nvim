@@ -1,5 +1,6 @@
 {
   im-switch-nvim,
+  opencode-nvim,
 }:
 
 final: prev:
@@ -31,6 +32,25 @@ in
 
         dependencies = [
           final.vimPlugins.plenary-nvim
+        ];
+      };
+
+    opencode-nvim =
+      let
+        src = opencode-nvim;
+      in
+      final.vimUtils.buildVimPlugin {
+        inherit src;
+
+        pname = "opencode-nvim";
+        version = src.rev;
+
+        dependencies = [
+          final.vimPlugins.snacks-nvim
+        ];
+
+        runtimeDeps = [
+          final.lsof
         ];
       };
 

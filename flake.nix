@@ -8,6 +8,11 @@
       url = "github:drop-stones/im-switch.nvim";
       flake = false;
     };
+
+    opencode-nvim = {
+      url = "github:NickvanDyke/opencode.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -35,7 +40,7 @@
         opts:
         lib.composeManyExtensions [
           (import ./overlays/nvim.nix opts)
-          (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim; })
+          (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim opencode-nvim; })
         ];
     in
     {
