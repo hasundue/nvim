@@ -1,8 +1,18 @@
-require('conform').setup(vim.fn.executable('treefmt') > 0 and {
+require('conform').setup({
   formatters_by_ft = {
-    ['*'] = { 'treefmt' },
+    ['*'] = function(bufnr)
+      if require('conform').get_formatter_info('treefmt', bufnr).available then
+        return { 'treefmt' }
+      end
+      return {}
+    end,
   },
-} or {})
+  formatters = {
+    treefmt = {
+      cwd = require('conform.util').root_file({ 'treefmt.toml', '.treefmt.toml', 'flake.nix' }),
+    },
+  },
+})
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
