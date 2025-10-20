@@ -12,7 +12,6 @@ end
 
 vim.lsp.config('*', {
   root_markers = { '.git' },
-  workspace = { didChangeWatchedFiles = { dynamicRegistration = true } },
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
