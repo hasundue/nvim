@@ -93,7 +93,7 @@ mkNvimAttr
         im-switch-nvim
         incline-nvim
         noice-nvim
-        no-neck-pain-nvim
+        # no-neck-pain-nvim
         nvim-spectre
         nvim-web-devicons
         oil-nvim
