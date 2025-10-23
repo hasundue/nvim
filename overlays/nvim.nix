@@ -84,7 +84,7 @@ mkNvimAttr
         clipboard
         location
         lsp
-        terminal
+        # terminal
       ];
       plugins = with p; [
         blink-cmp
@@ -99,7 +99,7 @@ mkNvimAttr
         oil-nvim
         plenary-nvim
         telescope-nvim
-        vim-floaterm
+        # vim-floaterm
       ];
       filetypes = with f; [ nix ];
     };
