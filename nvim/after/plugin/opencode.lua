@@ -4,18 +4,18 @@ vim.g.opencode_opts = {
 
 vim.opt.autoread = true
 
-vim.keymap.set({ 'n', 'x' }, '<leader>oa', function()
+vim.keymap.set({ 'n', 'x' }, '<leader>aa', function()
   require('opencode').ask('@this: ', { submit = true })
 end, { desc = 'Ask about this' })
 
-vim.keymap.set({ 'n', 'x' }, '<leader>os', function()
+vim.keymap.set({ 'n', 'x' }, '<leader>ap', function()
   require('opencode').select()
 end, { desc = 'Select prompt' })
 
-vim.keymap.set({ 'n', 'x' }, '<leader>o+', function()
+vim.keymap.set({ 'n', 'x' }, '<leader>as', function()
   require('opencode').prompt('@this')
-end, { desc = 'Add this' })
+end, { desc = 'Send this' })
 
-vim.keymap.set('n', '<leader>on', function()
+vim.keymap.set('n', '<leader>an', function()
   require('opencode').command('session_new')
 end, { desc = 'New session' })
