@@ -60,6 +60,7 @@ mkNvimAttr
       filetypes = with f; [
         bash
         json
+        jsonc
         markdown
         regex
         toml
@@ -82,9 +83,13 @@ mkNvimAttr
     dev = extendAttrs core {
       configs = with configs; [
         clipboard
+        json
         location
         lsp
         # terminal
+      ];
+      packages = with pkgs; [
+        vscode-json-languageserver
       ];
       plugins = with p; [
         blink-cmp
