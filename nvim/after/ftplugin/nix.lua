@@ -8,8 +8,3 @@ require('my.lsp').setup('nil_ls', {
     },
   },
 })
-
-vim.opt.expandtab = true
-
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2

@@ -16,8 +16,3 @@ require('my.lsp').setup('denols', {
 })
 
 require('my.lsp').setup('ts_ls')
-
-vim.opt.expandtab = true
-
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2

@@ -1,8 +1,3 @@
-vim.opt.expandtab = true
-
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-
 require('my.lsp').setup('lua_ls', {
   settings = {
     Lua = {
