@@ -106,7 +106,10 @@ mkNvimAttr
         telescope-nvim
         # vim-floaterm
       ];
-      filetypes = with f; [ nix ];
+      filetypes = with f; [
+        editorconfig
+        nix
+      ];
     };
   }
   {
