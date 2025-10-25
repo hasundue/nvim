@@ -168,4 +168,15 @@ mkNvimAttr
     zig = {
       filetypes = with f; [ zig ];
     };
+
+    terraform = {
+      filetypes = with f; [
+        hcl
+        terraform
+      ];
+      packages = with pkgs; [
+        terraform-ls
+        tflint
+      ];
+    };
   }
