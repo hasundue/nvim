@@ -4,7 +4,7 @@ AI coding agents should follow these guidelines when working in this repository.
 
 ## Build/Lint/Test Commands
 
-- **Format code**: `nix run dev/#treefmt` (formats Nix with nixfmt, Lua with stylua)
+- **Format code**: `treefmt` (available via `nix develop dev/`; formats Nix with nixfmt, Lua with stylua)
 - **Build all**: `nix build` (builds all Neovim configurations)
 - **Build specific**: `nix build .#<config>` where config is core, dev, deno, go, lua, nix, python, or rust
 - **Test in dev mode**: `nix run dev/` (launches Neovim with full dev configuration)
