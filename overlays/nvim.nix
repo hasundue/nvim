@@ -142,6 +142,10 @@ mkNvimAttr
       ];
     };
 
+    julia = {
+      filetypes = with f; [ julia ];
+    };
+
     lua = {
       filetypes = with f; [
         lua
