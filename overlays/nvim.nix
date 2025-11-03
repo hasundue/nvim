@@ -147,6 +147,7 @@ mkNvimAttr
 
     julia = {
       filetypes = with f; [ julia ];
+      plugins = with p; [ blink-cmp-latex ];
     };
 
     lua = {
