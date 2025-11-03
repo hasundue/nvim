@@ -59,6 +59,7 @@ let
       ++ utils
       ++ toFileSet ../nvim/after/ftplugin filetypes
       ++ toFileSet ../nvim/after/plugin plugins
+      ++ toFileSet ../nvim/plugin plugins
     );
   };
 in
