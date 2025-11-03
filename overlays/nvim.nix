@@ -110,6 +110,9 @@ mkNvimAttr
         editorconfig
         nix
       ];
+      utils = with utils; [
+        cmp
+      ];
     };
   }
   {
