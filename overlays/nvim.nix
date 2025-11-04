@@ -45,7 +45,15 @@ let
         // {
           inherit exts configs utils;
           pkgs = lib.mapAttrs (_: ext: wrapNeovim (extendAttrs dev ext)) exts // {
-            default = wrapNeovim dev;
+            default = wrapNeovim (
+              extendAttrs dev (
+                with exts;
+                [
+                  nix
+                  lua
+                ]
+              )
+            );
             full = wrapNeovim (extendAttrs dev (lib.attrValues exts));
           };
         };
@@ -154,6 +162,14 @@ mkNvimAttr
       filetypes = with f; [
         lua
         luadoc
+      ];
+    };
+
+    nix = {
+      filetypes = with f; [ nix ];
+      packages = with pkgs; [
+        nil
+        nixfmt
       ];
     };
 
