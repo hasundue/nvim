@@ -34,3 +34,8 @@ opt.tabstop = 2
 opt.shiftwidth = 0
 -- Make softtabstop follow shiftwidth
 opt.softtabstop = -1
+
+--
+-- integration ----------------------------------
+--
+opt.clipboard = 'unnamedplus'

@@ -90,7 +90,7 @@ mkNvimAttr
 
     dev = extendAttrs core {
       configs = with configs; [
-        clipboard
+        # clipboard
         json
         location
         lsp
