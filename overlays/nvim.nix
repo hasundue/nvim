@@ -168,7 +168,7 @@ mkNvimAttr
     nix = {
       filetypes = with f; [ nix ];
       packages = with pkgs; [
-        nil
+        nixd
         nixfmt
       ];
     };
