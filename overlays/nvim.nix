@@ -163,6 +163,9 @@ mkNvimAttr
         lua
         luadoc
       ];
+      plugins = with p; [
+        lazydev-nvim
+      ];
     };
 
     nix = {
