@@ -5,31 +5,20 @@ local function map(key, picker)
 end
 
 for picker, key in pairs({
-  -- find_files = "a",
-  buffers = 'b',
   git_files = 'f',
+  buffers = 'b',
   help_tags = 'h',
   live_grep = 'l',
   resume = 'r',
-  grep_string = 's',
+  grep_string = 'g',
 }) do
   map(key, picker)
 end
 
 require('telescope').setup({
   pickers = {
-    find_files = {
-      find_command = {
-        'fd',
-        '--type',
-        'f',
-        '--hidden',
-        '--no-ignore',
-        '--strip-cwd-prefix',
-      },
-    },
     git_files = {
-      recurse_submodules = true,
+      show_untracked = true,
     },
   },
 })
