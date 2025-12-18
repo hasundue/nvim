@@ -1,16 +1,25 @@
 ---@module 'blink.cmp'
 
 local M = {}
-local default_sources = { 'lsp', 'buffer', 'snippets', 'path' }
 
----@type blink.cmp.Config
-M.config = {}
+local config = {
+  sources = {
+    default = { 'lsp', 'buffer', 'snippets', 'path' },
+  },
+}
 
----@param config blink.cmp.Config
-M.setup = function(config)
-  default_sources = vim.list_extend(default_sources, config.sources.default or {})
-  M.config = vim.tbl_deep_extend('force', M.config, config)
-  M.config.sources.default = default_sources
+---@param params table<string, any>
+M.config = function(params)
+  config = vim.tbl_deep_extend('keep', config, params)
+  if params.sources and params.sources.default then
+    config.sources.default = vim.list_extend(config.sources.default, params.sources.default)
+  end
+end
+
+---@param params table<string, any> | nil
+M.setup = function(params)
+  M.config(params or {})
+  require('blink.cmp').setup(config)
 end
 
 return M

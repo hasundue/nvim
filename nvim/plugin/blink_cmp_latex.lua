@@ -1,4 +1,4 @@
-require('my.cmp').setup({
+require('my.cmp').config({
   sources = {
     default = { 'latex' },
     providers = {
