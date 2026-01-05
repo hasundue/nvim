@@ -68,7 +68,6 @@ mkNvimAttr
       filetypes = with f; [
         bash
         json
-        jsonc
         markdown
         regex
         toml
