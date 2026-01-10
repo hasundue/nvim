@@ -4,11 +4,10 @@
   neovimUtils,
   neovim-unwrapped,
   wrapNeovimUnstable,
+  vimPlugins,
 }:
-
 let
   removePrefixAny = patterns: str: lib.pipe str (map lib.removePrefix patterns);
-
   removeSuffixAny = patterns: str: lib.pipe str (map lib.removeSuffix patterns);
 
   getLuaScriptName =
@@ -52,27 +51,37 @@ in
   utils ? [ ], # [ Path ] (pkgs.mkNeovim.utils)
 }:
 let
+  nvim-treesitter = (vimPlugins.nvim-treesitter.withPlugins (_: filetypes)).overrideAttrs (oldAttrs: {
+    passthru.initLua = (oldAttrs.passthru.initLua or "") + ''
+      require'nvim-treesitter'.setup {
+        install_dir = '${builtins.head oldAttrs.passthru.dependencies}'
+      }
+    '';
+  });
+  plugins' = plugins ++ lib.optionals (filetypes != [ ]) [ nvim-treesitter ];
   rtp = lib.fileset.toSource {
     root = ../nvim;
     fileset = lib.fileset.unions (
       configs
       ++ utils
       ++ toFileSet ../nvim/after/ftplugin filetypes
-      ++ toFileSet ../nvim/after/plugin plugins
-      ++ toFileSet ../nvim/plugin plugins
+      ++ toFileSet ../nvim/after/plugin plugins'
+      ++ toFileSet ../nvim/plugin plugins'
     );
   };
 in
 wrapNeovimUnstable neovim-unwrapped (
   neovimConfig
   // {
-    plugins = plugins ++ filetypes;
+    autoconfigure = true;
+    autowrapRuntimeDeps = true;
+
+    plugins = plugins';
 
     wrapperArgs =
       neovimConfig.wrapperArgs
       ++ toWrapperArgs (
-        [ "--clean" ]
-        ++ (
+        (
           if dev then
             [
               ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim')"''

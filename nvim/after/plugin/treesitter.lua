@@ -1,17 +1,17 @@
-require('nvim-treesitter.configs').setup({
-  auto_install = false,
-  ensure_installed = {},
-  highlight = {
-    enable = true,
-    disable = {},
+-- Highlighting
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'nix',
+    'lua',
   },
-  ignore_install = {},
-  indent = {
-    enable = true,
-    disable = {
-      'nix',
-    },
-  },
-  modules = {},
-  sync_install = false,
+  callback = function()
+    vim.treesitter.start()
+  end,
 })
+
+-- Indent
+vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+-- Folding
+-- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+-- vim.wo[0][0].foldmethod = 'expr'

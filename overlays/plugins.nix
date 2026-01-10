@@ -17,6 +17,12 @@ let
     old.overrideAttrs (oldAttrs: {
       dependencies = (oldAttrs.dependencies or [ ]) ++ deps;
     });
+
+  withInitLua =
+    old: initLua:
+    old.overrideAttrs (oldAttrs: {
+      initLua = (oldAttrs.initLua or "") + "\n" + initLua;
+    });
 in
 {
   vimPlugins = prev.vimPlugins // {

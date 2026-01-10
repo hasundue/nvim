@@ -80,7 +80,6 @@ mkNvimAttr
         lualine-nvim
         nvim-lspconfig
         nvim-surround
-        nvim-treesitter
       ];
       utils = with utils; [
         lsp
