@@ -46,7 +46,6 @@
             inherit system;
             overlays = [ nvim.overlays.default ];
           };
-          neovim = with pkgs.nvim.exts; pkgs.nvim.dev.extend [ lua ];
           treefmt = (treefmt-nix.lib.evalModule pkgs ./treefmt.nix).config.build.wrapper;
           pre-commit = git-hooks.lib.${system}.run {
             src = ../.;
@@ -62,7 +61,6 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               lua-language-server
-              neovim
               nil
               treefmt
             ];
