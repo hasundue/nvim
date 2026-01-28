@@ -114,7 +114,6 @@ mkNvimAttr
       ];
       filetypes = with f; [
         editorconfig
-        nix
       ];
       utils = with utils; [
         cmp
