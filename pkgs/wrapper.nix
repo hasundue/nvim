@@ -17,7 +17,7 @@ let
     |> removePrefixAny [
       "nvim-"
       "vim-"
-      "vimplugin-treesitter-grammar-"
+      "vimplugin-nvim-treesitter-grammar-"
     ]
     |> removeSuffixAny [
       ".nvim"
