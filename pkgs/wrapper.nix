@@ -3,6 +3,7 @@
   lib,
   neovimUtils,
   neovim-unwrapped,
+  symlinkJoin,
   wrapNeovimUnstable,
   vimPlugins,
 }:
@@ -15,9 +16,9 @@ let
     drv
     |> (drv: drv.pname or drv.name)
     |> removePrefixAny [
+      "nvim-treesitter-grammar-"
       "nvim-"
       "vim-"
-      "vimplugin-nvim-treesitter-grammar-"
     ]
     |> removeSuffixAny [
       ".nvim"
@@ -51,13 +52,22 @@ in
   utils ? [ ], # [ Path ] (pkgs.mkNeovim.utils)
 }:
 let
-  nvim-treesitter = (vimPlugins.nvim-treesitter.withPlugins (_: filetypes)).overrideAttrs (oldAttrs: {
-    passthru.initLua = (oldAttrs.passthru.initLua or "") + ''
-      require'nvim-treesitter'.setup {
-        install_dir = '${builtins.head oldAttrs.passthru.dependencies}'
-      }
-    '';
-  });
+  nvim-treesitter = (vimPlugins.nvim-treesitter.withPlugins (_: filetypes)).overrideAttrs (
+    oldAttrs:
+    let
+      dependencies = symlinkJoin {
+        name = "nvim-treesitter-dependencies";
+        paths = oldAttrs.passthru.dependencies;
+      };
+    in
+    {
+      passthru.initLua = (oldAttrs.passthru.initLua or "") + ''
+        require'nvim-treesitter'.setup {
+          install_dir = '${dependencies}'
+        }
+      '';
+    }
+  );
   plugins' = plugins ++ lib.optionals (filetypes != [ ]) [ nvim-treesitter ];
   rtp = lib.fileset.toSource {
     root = ../nvim;
