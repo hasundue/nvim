@@ -1,7 +1,6 @@
 {
   dev ? false,
   lib,
-  neovimUtils,
   neovim-unwrapped,
   symlinkJoin,
   wrapNeovimUnstable,
@@ -29,8 +28,6 @@ let
     |> (name: "${name}.lua");
 
   toFileSet = dir: map (drv: lib.fileset.maybeMissing (lib.path.append dir (getLuaScriptName drv)));
-
-  neovimConfig = neovimUtils.makeNeovimConfig { };
 
   toWrapperArgs =
     flags:
@@ -80,44 +77,40 @@ let
     );
   };
 in
-wrapNeovimUnstable neovim-unwrapped (
-  neovimConfig
-  // {
-    autoconfigure = true;
-    autowrapRuntimeDeps = true;
+wrapNeovimUnstable neovim-unwrapped ({
+  autoconfigure = true;
+  autowrapRuntimeDeps = true;
 
-    plugins = plugins';
+  plugins = plugins';
 
-    wrapperArgs =
-      neovimConfig.wrapperArgs
-      ++ toWrapperArgs (
-        (
-          if dev then
-            [
-              ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim')"''
-              ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim/after')"''
-            ]
-            ++ lib.optionals (init != [ ]) [
-              ''--cmd "execute 'source ' . getcwd() . '/nvim/init.lua'"''
-            ]
-          else
-            [ ''--cmd "set rtp+=${rtp},${rtp}/after"'' ]
-            ++ lib.optionals (init != [ ]) [
-              ''--cmd "source ${builtins.head init}"''
-            ]
-        )
+  wrapperArgs =
+    toWrapperArgs (
+      (
+        if dev then
+          [
+            ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim')"''
+            ''--cmd "lua vim.opt.rtp:append(vim.fn.getcwd() .. '/nvim/after')"''
+          ]
+          ++ lib.optionals (init != [ ]) [
+            ''--cmd "execute 'source ' . getcwd() . '/nvim/init.lua'"''
+          ]
+        else
+          [ ''--cmd "set rtp+=${rtp},${rtp}/after"'' ]
+          ++ lib.optionals (init != [ ]) [
+            ''--cmd "source ${builtins.head init}"''
+          ]
       )
-      ++ lib.optionals (packages != [ ]) [
-        "--suffix"
-        "PATH"
-        ":"
-        (lib.makeBinPath packages)
-      ];
+    )
+    ++ lib.optionals (packages != [ ]) [
+      "--suffix"
+      "PATH"
+      ":"
+      (lib.makeBinPath packages)
+    ];
 
-    wrapRc = true; # make sure to wrap the rc file for `-u` option
+  wrapRc = true; # make sure to wrap the rc file for `-u` option
 
-    withNodeJs = false;
-    withPython3 = false;
-    withRuby = false;
-  }
-)
+  withNodeJs = false;
+  withPython3 = false;
+  withRuby = false;
+})
