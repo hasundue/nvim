@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "lean-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777328393,
+        "narHash": "sha256-Q4Y0i69hknFD30tAR9QP4du8pcRTAKs3M7LkDrBSMZY=",
+        "owner": "Julian",
+        "repo": "lean.nvim",
+        "rev": "b7b3d250b43cabde02681442eb9159fb56510a8b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Julian",
+        "repo": "lean.nvim",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1776329215,
@@ -51,8 +67,26 @@
     "root": {
       "inputs": {
         "im-switch-nvim": "im-switch-nvim",
+        "lean-nvim": "lean-nvim",
         "nixpkgs": "nixpkgs",
-        "opencode-nvim": "opencode-nvim"
+        "opencode-nvim": "opencode-nvim",
+        "tree-sitter-lean": "tree-sitter-lean"
+      }
+    },
+    "tree-sitter-lean": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735151393,
+        "narHash": "sha256-MF+LRzhDw3V/l/h11ZTyWCUCm3b+g0oyOdaCZMVlJc4=",
+        "owner": "Julian",
+        "repo": "tree-sitter-lean",
+        "rev": "efe6b87145608d12f5996bd7f0cf6095a0e82261",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Julian",
+        "repo": "tree-sitter-lean",
+        "type": "github"
       }
     }
   },

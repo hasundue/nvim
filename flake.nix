@@ -13,6 +13,16 @@
       url = "github:NickvanDyke/opencode.nvim";
       flake = false;
     };
+
+    tree-sitter-lean = {
+      url = "github:Julian/tree-sitter-lean";
+      flake = false;
+    };
+
+    lean-nvim = {
+      url = "github:Julian/lean.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -40,7 +50,14 @@
         opts:
         lib.composeManyExtensions [
           (import ./overlays/nvim.nix opts)
-          (import ./overlays/plugins.nix { inherit (inputs) im-switch-nvim opencode-nvim; })
+          (import ./overlays/plugins.nix {
+            inherit (inputs)
+              im-switch-nvim
+              opencode-nvim
+              tree-sitter-lean
+              lean-nvim
+              ;
+          })
         ];
     in
     {

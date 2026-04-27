@@ -1,6 +1,8 @@
 {
   im-switch-nvim,
   opencode-nvim,
+  tree-sitter-lean,
+  lean-nvim,
 }:
 
 final: prev:
@@ -72,5 +74,21 @@ in
       final.fzf
       final.ripgrep
     ];
+
+    nvim-treesitter-parsers = prev.vimPlugins.nvim-treesitter-parsers // {
+      lean = final.tree-sitter.buildGrammar {
+        language = "lean";
+        version = "unstable";
+        src = final.runCommand "lean-grammar-src" { } ''
+          cp -r ${tree-sitter-lean} $out
+          chmod -R +w $out
+          mkdir -p $out/queries/lean
+          cp ${lean-nvim}/queries/lean/*.scm $out/queries/lean/
+          # catch/try/finally nodes are unreachable in the parser
+          sed -i '/^\[$/{N;/\n  "catch"/{N;N;N;d}}' $out/queries/lean/highlights.scm
+        '';
+        generate = true;
+      };
+    };
   };
 }

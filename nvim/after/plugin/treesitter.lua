@@ -1,8 +1,11 @@
+vim.treesitter.language.register('lean', { 'lean' })
+
 -- Highlighting
 vim.api.nvim_create_autocmd('FileType', {
   pattern = {
     'nix',
     'lua',
+    'lean',
   },
   callback = function()
     vim.treesitter.start()
