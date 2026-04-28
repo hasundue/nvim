@@ -22,4 +22,4 @@ AI coding agents should follow these guidelines when working in this repository.
 - **Comments**: Minimal; Lua uses `--`, Nix uses `#`
 - **Architecture**: Follow modular pattern - configs, plugins, filetypes, utils are separate attribute sets
 - **Error handling**: Use vim.api functions; check executables before LSP setup (see nvim/lua/my/lsp.lua)
-- **Commits**: Use Conventional Commits format: `type(scope): description` (e.g., feat, fix, docs, chore)
+- **Commits**: Use `scope: description` format (e.g., `nvim: add new feature`, `flake: update inputs`)
