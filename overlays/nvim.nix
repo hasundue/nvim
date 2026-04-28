@@ -157,6 +157,7 @@ mkNvimAttr
 
     lean = {
       filetypes = with f; [ lean ];
+      plugins = with p; [ blink-cmp-latex ];
     };
 
     lua = {
