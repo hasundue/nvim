@@ -76,19 +76,20 @@ in
     ];
 
     nvim-treesitter-parsers = prev.vimPlugins.nvim-treesitter-parsers // {
-      lean = final.tree-sitter.buildGrammar {
-        language = "lean";
-        version = "unstable";
-        src = final.runCommand "lean-grammar-src" { } ''
-          cp -r ${tree-sitter-lean} $out
-          chmod -R +w $out
-          mkdir -p $out/queries/lean
-          cp ${lean-nvim}/queries/lean/*.scm $out/queries/lean/
-          # catch/try/finally nodes are unreachable in the parser
-          sed -i '/^\[$/{N;/\n  "catch"/{N;N;N;d}}' $out/queries/lean/highlights.scm
-        '';
-        generate = true;
-      };
+      lean = final.neovimUtils.grammarToPlugin (
+        final.tree-sitter.buildGrammar {
+          language = "lean";
+          version = "0.0.0+rev=${tree-sitter-lean.shortRev}";
+          src = final.runCommand "lean-grammar-src" { } ''
+            cp -r ${tree-sitter-lean} $out
+            chmod -R +w $out
+            mkdir -p $out/queries/lean
+            cp ${lean-nvim}/queries/lean/*.scm $out/queries/lean/
+            # catch/try/finally nodes are unreachable in the parser
+            sed -i '/^\[$/{N;/\n  "catch"/{N;N;N;d}}' $out/queries/lean/highlights.scm
+          '';
+        }
+      );
     };
   };
 }

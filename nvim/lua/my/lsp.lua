@@ -6,7 +6,7 @@ local M = {}
 ---@return nil
 M.setup = function(name, opts)
   local cfg = vim.lsp.config[name] or {}
-  local exe = cfg.cmd[1] or name
+  local exe = opts and opts.cmd and opts.cmd[1] or cfg.cmd and cfg.cmd[1] or name
   if vim.fn.executable(exe) == 0 then
     return
   end
