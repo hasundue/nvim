@@ -18,7 +18,7 @@ A modular Neovim configuration built with Nix flakes, designed to create differe
 nix run github:hasundue/nvim#core
 
 # Or run the full configuration with all plugins
-nix run github:hasundue/nvim#full
+nix run github:hasundue/nvim#default
 
 # Or try a language-specific variant
 nix run github:hasundue/nvim#python
@@ -49,7 +49,7 @@ Add to your `flake.nix`:
 | Variant | Description | Language Servers | Use Case |
 |---------|-------------|------------------|----------|
 | `core` | Minimal base configuration | None | Basic editing |
-| `full` | Complete development setup | All supported | Full development |
+| `default` | Complete development setup | All supported | Full development |
 | `deno` | TypeScript/JavaScript with Deno | Built-in Deno LSP | Deno projects |
 | `go` | Go development | gopls | Go projects |
 | `lua` | Lua development | lua-language-server | Lua/Neovim config |

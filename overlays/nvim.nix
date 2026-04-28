@@ -44,17 +44,8 @@ let
         // lib.mapAttrs (_: attrs: makeExtendable attrs) bases
         // {
           inherit exts configs utils;
-          pkgs = lib.mapAttrs (_: ext: wrapNeovim (extendAttrs dev ext)) exts // {
-            default = wrapNeovim (
-              extendAttrs dev (
-                with exts;
-                [
-                  nix
-                  lua
-                ]
-              )
-            );
-            full = wrapNeovim (extendAttrs dev (lib.attrValues exts));
+          packages = lib.mapAttrs (_: ext: wrapNeovim (extendAttrs dev ext)) exts // {
+            default = wrapNeovim (extendAttrs dev (lib.attrValues exts));
           };
         };
     };
@@ -121,18 +112,6 @@ mkNvimAttr
     };
   }
   {
-    claude-code = {
-      plugins = with p; [
-        claude-code-nvim
-      ];
-    };
-
-    codecompanion = {
-      plugins = with p; [
-        codecompanion-nvim
-      ];
-    };
-
     deno = {
       filetypes = with f; [
         javascript
@@ -172,10 +151,6 @@ mkNvimAttr
 
     nix = {
       filetypes = with f; [ nix ];
-      packages = with pkgs; [
-        nil
-        nixfmt
-      ];
     };
 
     python = {
@@ -202,10 +177,6 @@ mkNvimAttr
       filetypes = with f; [
         hcl
         terraform
-      ];
-      packages = with pkgs; [
-        terraform-ls
-        tflint
       ];
     };
   }

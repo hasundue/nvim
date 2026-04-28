@@ -68,7 +68,7 @@
           pkgs.mkShell {
             buildInputs = [ neovim ];
           }
-        ) pkgs.nvim.pkgs
+        ) pkgs.nvim.packages
       );
 
       lib = { inherit supportedSystems; };
@@ -78,6 +78,6 @@
         dev = mkOverlay { dev = true; };
       };
 
-      packages = forEachSystem (pkgs: pkgs.nvim.pkgs);
+      packages = forEachSystem (pkgs: pkgs.nvim.packages);
     };
 }
