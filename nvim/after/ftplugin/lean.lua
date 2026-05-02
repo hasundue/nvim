@@ -1,5 +1,5 @@
 require('my.lsp').setup('leanls', {
-  cmd = { 'lean', '--server' },
+  cmd = { 'lake', 'serve' },
   filetypes = { 'lean' },
   root_markers = {
     'lakefile.lean',
